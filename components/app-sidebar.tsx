@@ -1,0 +1,104 @@
+"use client"
+
+import * as React from "react"
+
+import {NavMain} from "@/components/nav-main"
+import {NavUser} from "@/components/nav-user"
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/components/ui/sidebar"
+import {
+    TerminalSquareIcon,
+    Settings2Icon,
+    FrameIcon,
+    CatIcon
+} from "lucide-react"
+
+const data = {
+    user: {
+        name: "test",
+        email: "",
+        avatar: "https://github.com/"
+    },
+    navMain: [
+        {
+            title: "Servers",
+            url: "#",
+            icon: (
+                <TerminalSquareIcon
+                />
+            ),
+            isActive: true,
+            items: [
+                {
+                    title: "1",
+                    url: "#",
+                },
+            ],
+        },
+        {
+            title: "Settings",
+            url: "#",
+            icon: (
+                <Settings2Icon
+                />
+            ),
+            items: [
+                {
+                    title: "General",
+                    url: "#",
+                }
+            ],
+        },
+    ],
+    navSecondary: [
+        {
+            title: "",
+            url: "#",
+            icon: (
+                <CatIcon
+                />
+            ),
+        },
+    ],
+    projects: [
+        {
+            name: "something",
+            url: "#",
+            icon: (
+                <FrameIcon
+                />
+            ),
+        }
+    ],
+}
+
+export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
+    return (
+        <Sidebar {...props}>
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton href="#" size="lg">
+                            <div className="flex-1 text-center text-3xl leading-tight">
+                                <span className="truncate font-bold">Quasar</span>
+                            </div>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent>
+                <NavMain items={data.navMain}/>
+            </SidebarContent>
+            <SidebarFooter>
+                <NavUser user={data.user}/>
+            </SidebarFooter>
+        </Sidebar>
+    )
+}

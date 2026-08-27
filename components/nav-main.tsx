@@ -1,4 +1,5 @@
 "use client"
+import React from "react";
 
 import {
     Collapsible,
@@ -6,7 +7,6 @@ import {
 } from "@/components/ui/collapsible"
 import {
     SidebarGroup,
-    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuAction,
     SidebarMenuButton,
@@ -17,9 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import {ChevronRightIcon} from "lucide-react"
 
-export function NavMain({
-                            items,
-                        }: {
+export function NavMain({items}: {
     items: {
         title: string
         url: string

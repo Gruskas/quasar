@@ -16,8 +16,6 @@ import {
 import {
     TerminalSquareIcon,
     Settings2Icon,
-    FrameIcon,
-    CatIcon
 } from "lucide-react"
 
 const data = {
@@ -56,27 +54,7 @@ const data = {
                 }
             ],
         },
-    ],
-    navSecondary: [
-        {
-            title: "",
-            url: "#",
-            icon: (
-                <CatIcon
-                />
-            ),
-        },
-    ],
-    projects: [
-        {
-            name: "something",
-            url: "#",
-            icon: (
-                <FrameIcon
-                />
-            ),
-        }
-    ],
+    ]
 }
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {

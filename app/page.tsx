@@ -40,8 +40,9 @@ export default function Home() {
                                 <CardTitle className="text-sm font-medium">All Servers</CardTitle>
                                 <Server className="h-4 w-4 text-muted-foreground"/>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="flex flex-row justify-between pb-2">
                                 <div className="text-2xl font-bold">12</div>
+                                {/*<Server className="h-4 w-4 text-muted-foreground"/>*/}
                             </CardContent>
                         </Card>
 

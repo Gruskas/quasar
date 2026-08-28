@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sidebar"
 import {
     TerminalSquareIcon,
-    Settings2Icon,
+    Settings2Icon, Notebook,
 } from "lucide-react"
 
 const data = {
@@ -41,10 +41,10 @@ const data = {
             ],
         },
         {
-            title: "Settings",
+            title: "Notebook",
             url: "#",
             icon: (
-                <Settings2Icon
+                <Notebook
                 />
             ),
             items: [
@@ -54,6 +54,20 @@ const data = {
                 }
             ],
         },
+        {
+            title: "TODO",
+            url: "#",
+            icon: (
+                <Notebook
+                />
+            ),
+            items: [
+                {
+                    title: "General",
+                    url: "#",
+                }
+            ],
+        }
     ]
 }
 

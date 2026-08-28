@@ -14,6 +14,7 @@ import {
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Activity, AlertCircle, Server} from "lucide-react";
 import {ServersTable} from "@/components/table"
+import {ServerDialog} from "@/components/server-dialog";
 
 export default function Home() {
     return (
@@ -42,7 +43,7 @@ export default function Home() {
                             </CardHeader>
                             <CardContent className="flex flex-row justify-between pb-2">
                                 <div className="text-2xl font-bold">12</div>
-                                {/*<Server className="h-4 w-4 text-muted-foreground"/>*/}
+                                <ServerDialog/>
                             </CardContent>
                         </Card>
 

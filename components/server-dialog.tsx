@@ -56,7 +56,7 @@ export function ServerDialog() {
                     <Button
                         onPress={() => setIsOpen(false)}
                         className="h-9 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 cursor-pointer"
-                    >Save</Button>
+                    >Add</Button>
                 </DialogFooter>
             </Dialog>
         </DialogTrigger>

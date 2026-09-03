@@ -27,3 +27,11 @@ export async function addServer(data: FormData) {
 
     revalidatePath("/servers");
 }
+
+export async function deleteServer(id: number) {
+    await db.server.delete({
+        where: { id },
+    });
+
+    revalidatePath("/servers");
+}

@@ -35,7 +35,7 @@ export async function ServersTable() {
                             <TableCell className="p-2">{server.username}</TableCell>
                             <TableCell className="p-2 text-emerald-500 font-semibold">Online</TableCell>
                             <TableCell className="p-2">
-                                <ServerActionsMenu/>
+                                <ServerActionsMenu serverId={server.id} />
                             </TableCell>
                         </TableRow>
                     ))}

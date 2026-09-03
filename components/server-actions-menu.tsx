@@ -8,7 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontalIcon } from "lucide-react"
 
-export function ServerActionsMenu() {
+import { deleteServer } from "@/app/actions";
+
+export function ServerActionsMenu({ serverId }: { serverId: number }) {
     return (
         <DropdownMenuTrigger>
             <Button
@@ -21,7 +23,9 @@ export function ServerActionsMenu() {
             <DropdownMenu placement="bottom end">
                 <DropdownMenuItem>View</DropdownMenuItem>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive" onClick={() => {deleteServer(serverId)}}>Delete
+                    Delete
+                </DropdownMenuItem>
             </DropdownMenu>
         </DropdownMenuTrigger>
     )

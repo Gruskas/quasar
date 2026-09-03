@@ -8,12 +8,10 @@ import {
 } from "@/components/ui/table"
 import {Card} from "@/components/ui/card"
 import {ServerActionsMenu} from "@/components/server-actions-menu"
-import {getServersWithStatus} from "@/lib/get-servers";
 
 export async function ServersTable({servers}: {
-    servers: { id: number; name: string; host: string; port: number | null; username: string; isOnline: boolean }[]
+    servers: { id: number; name: string; host: string; port: number | string; username: string; isOnline: boolean }[]
 }) {
-    const serversWithStatus = await getServersWithStatus();
 
     return (
         <Card className="min-h-screen flex-1 rounded-xl md:min-h-min p-4">
@@ -27,7 +25,7 @@ export async function ServersTable({servers}: {
                     <TableHead className="p-2 font-semibold text-left">Actions</TableHead>
                 </TableHeader>
                 <TableBody>
-                    {serversWithStatus.map((server) => (
+                    {servers.map((server) => (
                         <TableRow key={server.id} className="border-b">
                             <TableCell className="p-2 font-medium">{server.name}</TableCell>
                             <TableCell className="p-2">{server.host}</TableCell>

@@ -3,7 +3,7 @@ import {Activity, AlertCircle, Server} from "lucide-react";
 import {ServerDialog} from "@/components/server-dialog";
 
 export async function ServersOverview({servers}: {
-    servers: { id: number; name: string; host: string; port: number | null; username: string; isOnline: boolean }[]
+    servers: { id: number; name: string; host: string; port: number | string; username: string; isOnline: boolean }[]
 }) {
 
     const totalServers = servers.length;

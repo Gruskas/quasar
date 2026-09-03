@@ -7,13 +7,13 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {Card} from "@/components/ui/card"
-import {db} from "@/lib/db"
 import {ServerActionsMenu} from "@/components/server-actions-menu"
+import {getServersWithStatus} from "@/lib/get-servers";
 
-export async function ServersTable() {
-    const servers = await db.server.findMany({
-        orderBy: {createdAt: "desc"},
-    })
+export async function ServersTable({servers}: {
+    servers: { id: number; name: string; host: string; port: number | null; username: string; isOnline: boolean }[]
+}) {
+    const serversWithStatus = await getServersWithStatus();
 
     return (
         <Card className="min-h-screen flex-1 rounded-xl md:min-h-min p-4">
@@ -27,13 +27,17 @@ export async function ServersTable() {
                     <TableHead className="p-2 font-semibold text-left">Actions</TableHead>
                 </TableHeader>
                 <TableBody>
-                    {servers.map((server) => (
+                    {serversWithStatus.map((server) => (
                         <TableRow key={server.id} className="border-b">
                             <TableCell className="p-2 font-medium">{server.name}</TableCell>
                             <TableCell className="p-2">{server.host}</TableCell>
                             <TableCell className="p-2">{server.port}</TableCell>
                             <TableCell className="p-2">{server.username}</TableCell>
-                            <TableCell className="p-2 text-emerald-500 font-semibold">Online</TableCell>
+                            {server.isOnline ? (
+                                <TableCell className="p-2 text-emerald-500 font-semibold">Online</TableCell>
+                            ) : (
+                                <TableCell className="p-2 text-destructive font-semibold">Offline</TableCell>
+                            )}
                             <TableCell className="p-2">
                                 <ServerActionsMenu server={server}/>
                             </TableCell>

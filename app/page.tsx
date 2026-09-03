@@ -13,8 +13,11 @@ import {
 } from "@/components/ui/sidebar"
 import {ServersTable} from "@/components/table"
 import {ServersOverview} from "@/components/servers-overview";
+import {Suspense} from "react";
+import {getServersWithStatus} from "@/lib/get-servers";
 
-export default function Home() {
+export default async function Home() {
+    const servers = await getServersWithStatus();
     return (
         <SidebarProvider>
             <AppSidebar/>
@@ -33,8 +36,13 @@ export default function Home() {
                     </div>
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4">
-                    <ServersOverview/>
-                    <ServersTable/>
+                    <Suspense fallback={<div className="h-28 rounded-xl bg-muted/50 animate-pulse"/>}>
+                        <ServersOverview servers={servers}/>
+                    </Suspense>
+
+                    <Suspense fallback={<div className="h-64 rounded-xl bg-muted/50 animate-pulse"/>}>
+                        <ServersTable servers={servers}/>
+                    </Suspense>
                 </div>
             </SidebarInset>
         </SidebarProvider>

@@ -1,7 +1,7 @@
 "use server"
 
-import { revalidatePath } from "next/cache";
-import { db } from "@/lib/db";
+import {revalidatePath} from "next/cache";
+import {db} from "@/lib/db";
 
 export async function addServer(data: FormData) {
     const name = data.get("name")?.toString();
@@ -30,7 +30,32 @@ export async function addServer(data: FormData) {
 
 export async function deleteServer(id: number) {
     await db.server.delete({
-        where: { id },
+        where: {id},
+    });
+
+    revalidatePath("/servers");
+}
+
+export async function updateServer(id: number, data: FormData) {
+    const name = data.get("name")?.toString();
+    const host = data.get("host")?.toString();
+    const port = data.get("port")?.toString();
+    const username = data.get("username")?.toString();
+    const password = data.get("password")?.toString();
+
+    if (!id || !name || !host || !port || !username || !password) {
+        throw new Error("Missing required fields");
+    }
+
+    await db.server.update({
+        where: {id},
+        data: {
+            name,
+            host,
+            port: parseInt(port),
+            username,
+            password,
+        },
     });
 
     revalidatePath("/servers");

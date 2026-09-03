@@ -6,13 +6,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Card } from "@/components/ui/card"
-import { db } from "@/lib/db"
-import { ServerActionsMenu } from "@/components/server-actions-menu"
+import {Card} from "@/components/ui/card"
+import {db} from "@/lib/db"
+import {ServerActionsMenu} from "@/components/server-actions-menu"
 
 export async function ServersTable() {
     const servers = await db.server.findMany({
-        orderBy: { createdAt: "desc" },
+        orderBy: {createdAt: "desc"},
     })
 
     return (
@@ -35,7 +35,7 @@ export async function ServersTable() {
                             <TableCell className="p-2">{server.username}</TableCell>
                             <TableCell className="p-2 text-emerald-500 font-semibold">Online</TableCell>
                             <TableCell className="p-2">
-                                <ServerActionsMenu serverId={server.id} />
+                                <ServerActionsMenu server={server}/>
                             </TableCell>
                         </TableRow>
                     ))}

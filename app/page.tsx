@@ -43,7 +43,7 @@ export default function Home() {
                             </CardHeader>
                             <CardContent className="flex flex-row justify-between pb-2">
                                 <div className="text-2xl font-bold">12</div>
-                                <ServerDialog/>
+                                <ServerDialog method="add"/>
                             </CardContent>
                         </Card>
 

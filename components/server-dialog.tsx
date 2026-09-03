@@ -15,20 +15,22 @@ import {
 
 import {addServer} from "@/app/actions";
 
-export function ServerDialog() {
-    const [isOpen, setIsOpen] = useState(false)
+type ServerDialogMode = "add" | "edit"
 
+export function ServerDialog({method}: { method: ServerDialogMode }) {
+    const [isOpen, setIsOpen] = useState(false)
     return (
         <DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-            <Button className="flex h-9 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 cursor-pointer"
+            <Button
+                className="flex h-9 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 cursor-pointer"
             >Add Server</Button>
 
-            <Dialog aria-label="Add new server">
+            <Dialog aria-label={method === "add" ? "Add new server" : "Edit server"}>
                 <form action={addServer} onSubmit={() => setIsOpen(false)}>
                     <DialogHeader>
-                        <DialogTitle>Add new server</DialogTitle>
+                        <DialogTitle>{method === "add" ? "Add new server" : "Edit server"}</DialogTitle>
                         <DialogDescription>
-                            Enter the access credentials for the new VPS / Dedicated server.
+                            {method === "add" ? "Enter the access credentials for the new VPS / Dedicated server." : "Update the access credentials for the server."}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -62,7 +64,9 @@ export function ServerDialog() {
                         >Cancel</Button>
                         <Button type={"submit"}
                                 className="h-9 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 cursor-pointer"
-                        >Add</Button>
+                        >
+                            {method === "add" ? "Add" : "Update"}
+                        </Button>
                     </DialogFooter>
                 </form>
             </Dialog>

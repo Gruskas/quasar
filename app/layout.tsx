@@ -19,7 +19,7 @@ export default function RootLayout({children}: LayoutProps<"/">) {
             suppressHydrationWarning
             className={cn("font-sans", inter.variable)}
         >
-        <body className="min-h-screen flex bg-background text-foreground">
+        <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider
             attribute="class"
             defaultTheme="dark"

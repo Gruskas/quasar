@@ -15,15 +15,10 @@ import {
 } from "@/components/ui/sidebar"
 import {
     TerminalSquareIcon,
-    Settings2Icon, Notebook,
+    Notebook,
 } from "lucide-react"
 
 const data = {
-    user: {
-        name: "test",
-        email: "",
-        avatar: "https://github.com/"
-    },
     navMain: [
         {
             title: "Servers",
@@ -89,7 +84,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 <NavMain items={data.navMain}/>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user}/>
+                <NavUser/>
             </SidebarFooter>
         </Sidebar>
     )

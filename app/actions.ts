@@ -4,8 +4,15 @@ import {revalidatePath} from "next/cache";
 import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
 import { setSessionCookie, deleteSessionCookie } from "@/lib/auth"
+import { getCurrentUser } from "@/lib/auth";
 
 export async function addServer(data: FormData) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
     const name = data.get("name")?.toString();
     const host = data.get("host")?.toString();
     const port = data.get("port")?.toString();
@@ -23,7 +30,7 @@ export async function addServer(data: FormData) {
             port: parseInt(port),
             username,
             password,
-            userId: 1,
+            userId: user.id,
         },
     });
 
@@ -31,14 +38,26 @@ export async function addServer(data: FormData) {
 }
 
 export async function deleteServer(id: number) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
     await db.server.delete({
-        where: {id},
+        where: {id, userId: user.id},
     });
 
     revalidatePath("/servers");
 }
 
 export async function updateServer(id: number, data: FormData) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
     const name = data.get("name")?.toString();
     const host = data.get("host")?.toString();
     const port = data.get("port")?.toString();
@@ -50,7 +69,7 @@ export async function updateServer(id: number, data: FormData) {
     }
 
     await db.server.update({
-        where: {id},
+        where: {id, userId: user.id},
         data: {
             name,
             host,

@@ -27,7 +27,7 @@ export default async function Home() {
         redirect("/login");
     }
 
-    const servers = await getServersWithStatus();
+    const servers = await getServersWithStatus(user.id);
     return (
         <UserProvider user={user}>
             <SidebarProvider>

@@ -1,8 +1,11 @@
 import {db} from "@/lib/db"
 import {isServerOnline} from "@/lib/ping-server"
 
-export async function getServersWithStatus() {
+export async function getServersWithStatus(userId: number) {
     const servers = await db.server.findMany({
+        where : {
+            userId: userId,
+        },
         orderBy: {
             createdAt: "desc",
         }

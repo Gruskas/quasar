@@ -3,7 +3,7 @@
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
+
 } from "@/components/ui/avatar"
 import {
     DropdownMenu,
@@ -19,7 +19,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import {ChevronsUpDownIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon} from "lucide-react"
+import {ChevronsUpDownIcon, LogOutIcon, SettingsIcon} from "lucide-react"
 
 import {useUser} from "@/components/user-provider"
 import {logout} from "@/app/actions";
@@ -64,19 +64,8 @@ export function NavUser() {
                         <DropdownMenuSeparator/>
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <BadgeCheckIcon
-                                />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCardIcon
-                                />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <BellIcon
-                                />
-                                Notifications
+                                <SettingsIcon/>
+                                settings
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator/>

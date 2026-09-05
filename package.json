@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:next": "next dev",
+    "dev:ws": "tsx server-ws.ts",
+    "dev": "concurrently -k -n \"NEXT,WS\" -c \"cyan.bold,magenta.bold\" \"npm:dev:next\" \"npm:dev:ws\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -34,6 +36,7 @@
     "@types/react-dom": "^19",
     "@types/ssh2": "^1.15.5",
     "@types/ws": "^8.18.1",
+    "concurrently": "^10.0.5",
     "eslint": "^9",
     "eslint-config-next": "latest",
     "tailwindcss": "^4",

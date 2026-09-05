@@ -26,7 +26,13 @@ export function ServerActionsMenu({server}: { server: ServerData }) {
                     <MoreHorizontalIcon className="h-4 w-4"/>
                 </Button>
                 <DropdownMenu placement="bottom end">
-                    <DropdownMenuItem>View</DropdownMenuItem>
+                    <DropdownMenuItem
+                        onAction={() => {
+                            window.open(`/terminal/${server.id}`, "_blank");
+                        }}
+                    >
+                        SSH
+                    </DropdownMenuItem>
                     <DropdownMenuItem onAction={() => setIsDialogOpen(true)}>
                         Edit
                     </DropdownMenuItem>

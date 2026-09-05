@@ -1,12 +1,14 @@
-import { WebSocketServer } from "ws"
-import { Client } from "ssh2"
-import { db } from "./lib/db"
+import {WebSocketServer} from "ws"
+import {Client} from "ssh2"
+import {db} from "./lib/db"
 
-const wss = new WebSocketServer({ port: 3001 })
+const wss = new WebSocketServer({port: 3001})
 
 wss.on("connection", async (ws, req) => {
     const urlParams = new URLSearchParams(req.url?.split("?")[1])
     const serverId = urlParams.get("serverId")
+    const cols = Number(urlParams.get("cols")) || 80
+    const rows = Number(urlParams.get("rows")) || 24
 
     if (!serverId) {
         ws.close(1008, "Missing serverId")
@@ -14,7 +16,7 @@ wss.on("connection", async (ws, req) => {
     }
 
     const serverData = await db.server.findUnique({
-        where: { id: Number(serverId) }, select: {
+        where: {id: Number(serverId)}, select: {
             host: true,
             port: true,
             username: true,
@@ -30,7 +32,7 @@ wss.on("connection", async (ws, req) => {
     const ssh = new Client()
 
     ssh.on("ready", () => {
-        ssh.shell({term: "xterm-256color"}, (err, stream) => {
+        ssh.shell({term: "xterm-256color", cols: cols, rows: rows}, (err, stream) => {
             if (err) {
                 ws.send(`\r\nError: ${err.message}\r\n`)
                 return ws.close()
@@ -41,7 +43,14 @@ wss.on("connection", async (ws, req) => {
             })
 
             ws.on("message", (msg) => {
-                stream.write(msg.toString())
+                const raw = msg.toString()
+
+                if (raw.startsWith('{"type":"resize"')) {
+                    const {rows, cols} = JSON.parse(raw)
+                    return stream.setWindow(rows, cols, 0, 0)
+                }
+
+                stream.write(raw)
             })
 
             stream.on("close", () => {

@@ -5,7 +5,7 @@ import {Terminal} from "@xterm/xterm"
 import {FitAddon} from "@xterm/addon-fit"
 import "@xterm/xterm/css/xterm.css"
 
-export function TerminalClient({ serverId }: { serverId: string }) {
+export function TerminalClient({serverId}: { serverId: string }) {
     const terminalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -25,7 +25,20 @@ export function TerminalClient({ serverId }: { serverId: string }) {
         term.open(terminalRef.current)
         fitAddon.fit()
 
-        const ws = new WebSocket(`ws://localhost:3001?serverId=${serverId}`)
+        const ws = new WebSocket(
+            `ws://localhost:3001?serverId=${serverId}&cols=${term.cols}&rows=${term.rows}`
+        )
+
+        const sendResize = () => {
+            fitAddon.fit()
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: "resize",
+                    cols: term.cols,
+                    rows: term.rows,
+                }))
+            }
+        }
 
         ws.onmessage = (event) => {
             term.write(event.data)
@@ -41,7 +54,7 @@ export function TerminalClient({ serverId }: { serverId: string }) {
             term.write("\r\n*** Connection closed ***\r\n")
         }
 
-        const handleResize = () => fitAddon.fit()
+        const handleResize = () => sendResize()
         window.addEventListener("resize", handleResize)
 
         return () => {

@@ -5,6 +5,7 @@
   "scripts": {
     "dev:next": "next dev",
     "dev:ws": "tsx server-ws.ts",
+    "db:init": "node -e \"if (!require('fs').existsSync('.env')) require('fs').writeFileSync('.env', 'DATABASE_URL=\\\"file:./quasar.db\\\"\\n')\" && prisma generate && prisma db push",
     "dev": "concurrently -k -n \"NEXT,WS\" -c \"cyan.bold,magenta.bold\" \"npm:dev:next\" \"npm:dev:ws\"",
     "build": "next build",
     "start": "next start",

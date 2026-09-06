@@ -30,8 +30,8 @@ const data = {
             isActive: true,
             items: [
                 {
-                    title: "1",
-                    url: "#",
+                    title: "Vault",
+                    url: "/vault",
                 },
             ],
         },

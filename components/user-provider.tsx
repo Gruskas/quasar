@@ -2,7 +2,7 @@
 
 import {createContext, useContext} from "react"
 
-type User = { id: number; username: string } | null
+type User = { id: string; username: string } | null
 
 const UserContext = createContext<User>(null)
 

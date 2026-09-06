@@ -24,7 +24,7 @@ export async function getCurrentUser() {
     return session.user
 }
 
-export async function setSessionCookie(userId: number) {
+export async function setSessionCookie(userId: string) {
     const cookieStore = await cookies()
     const token = crypto.randomUUID()
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days

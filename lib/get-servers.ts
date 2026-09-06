@@ -1,7 +1,7 @@
 import {db} from "@/lib/db"
 import {isServerOnline} from "@/lib/ping-server"
 
-export async function getServersWithStatus(userId: number) {
+export async function getServersWithStatus(userId: string) {
     const servers = await db.server.findMany({
         where : {
             userId: userId,

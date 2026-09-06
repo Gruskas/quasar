@@ -1,33 +1,27 @@
+import {redirect} from "next/navigation"
+import {getCurrentUser} from "@/lib/auth"
+import {UserProvider} from "@/components/user-provider"
 import {AppSidebar} from "@/components/app-sidebar"
+import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar"
+import {Separator} from "@/components/ui/separator"
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbList,
     BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
-import {Separator} from "@/components/ui/separator"
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
-import {ServersTable} from "@/components/table"
-import {ServersOverview} from "@/components/servers-overview";
-import {Suspense} from "react";
-import {getServersWithStatus} from "@/lib/get-servers";
-import {redirect} from "next/navigation";
 
-import {getCurrentUser} from "@/lib/auth"
-import {UserProvider} from "@/components/user-provider";
-
-
-export default async function Home() {
+export default async function DashboardLayout({
+                                                  children,
+                                              }: {
+    children: React.ReactNode
+}) {
     const user = await getCurrentUser()
+
     if (!user) {
-        redirect("/login");
+        redirect("/login")
     }
 
-    const servers = await getServersWithStatus(user.id);
     return (
         <UserProvider user={user}>
             <SidebarProvider>
@@ -46,15 +40,7 @@ export default async function Home() {
                             </Breadcrumb>
                         </div>
                     </header>
-                    <div className="flex flex-1 flex-col gap-4 p-4">
-                        <Suspense fallback={<div className="h-28 rounded-xl bg-muted/50 animate-pulse"/>}>
-                            <ServersOverview servers={servers}/>
-                        </Suspense>
-
-                        <Suspense fallback={<div className="h-64 rounded-xl bg-muted/50 animate-pulse"/>}>
-                            <ServersTable servers={servers}/>
-                        </Suspense>
-                    </div>
+                    {children}
                 </SidebarInset>
             </SidebarProvider>
         </UserProvider>

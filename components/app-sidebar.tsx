@@ -22,7 +22,7 @@ const data = {
     navMain: [
         {
             title: "Servers",
-            url: "#",
+            url: "/",
             icon: (
                 <TerminalSquareIcon
                 />
@@ -72,7 +72,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton href="#" size="lg">
+                        <SidebarMenuButton href="/" size="lg">
                             <div className="flex-1 text-center text-3xl leading-tight">
                                 <span className="truncate font-bold">Quasar</span>
                             </div>

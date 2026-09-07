@@ -4,6 +4,7 @@ import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
 import {X} from "lucide-react";
 import {useState} from "react";
+import {Textarea} from "@/components/ui/textarea";
 
 export type VaultFormMode = "add" | "edit"
 
@@ -76,7 +77,7 @@ export default function VaultForm({
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="privateKey">Private Key</Label>
-                        <Input id="privateKey" name="privateKey" defaultValue={initialData?.privateKey}
+                        <Textarea className="h-100" id="privateKey" name="privateKey" defaultValue={initialData?.privateKey}
                                placeholder="-----BEGIN RSA PRIVATE KEY-----"
                                required/>
                     </div>

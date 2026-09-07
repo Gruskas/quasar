@@ -11,11 +11,7 @@ import {
     BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
 
-export default async function DashboardLayout({
-                                                  children,
-                                              }: {
-    children: React.ReactNode
-}) {
+export default async function DashboardLayout({children}: { children: React.ReactNode }) {
     const user = await getCurrentUser()
 
     if (!user) {

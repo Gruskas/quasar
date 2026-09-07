@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/sidebar"
 import {ChevronsUpDownIcon, LogOutIcon, SettingsIcon} from "lucide-react"
 
-import {useUser} from "@/components/user-provider"
-import {logout} from "@/app/actions";
+import {useUser} from "@/components/providers/user-provider"
+import {logout} from "@/lib/actions";
 
 export function NavUser() {
     const user = useUser()

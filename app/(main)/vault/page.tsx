@@ -1,6 +1,6 @@
-import {getVaults} from "@/app/vault";
+import {getVaults} from "@/lib/vault";
 import {getCurrentUser} from "@/lib/auth";
-import {VaultView} from "@/components/vault-view";
+import {VaultView} from "@/components/vault/vault-view";
 
 export default async function VaultPage() {
     const user = (await getCurrentUser())!

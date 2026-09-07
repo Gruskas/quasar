@@ -1,10 +1,10 @@
 "use client"
 
-import {VaultCard} from "@/components/vault-card"
+import {VaultCard} from "@/components/vault/vault-card"
 import {Button} from "@/components/ui/button"
 import {Plus} from "lucide-react";
 import {useState} from "react";
-import VaultForm, {SSHKeyData, VaultFormMode} from "@/components/vault-form";
+import VaultForm, {SSHKeyData, VaultFormMode} from "@/components/vault/vault-form";
 
 export function VaultView({keys}: { keys: SSHKeyData[] }) {
     const [isOpen, setIsOpen] = useState(false)

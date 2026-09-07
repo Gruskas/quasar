@@ -13,7 +13,7 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog"
 
-import {addServer, updateServer} from "@/app/actions";
+import {addServer, updateServer} from "@/lib/actions";
 
 type ServerDialogMode = "add" | "edit"
 

@@ -1,8 +1,8 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Activity, AlertCircle, Server} from "lucide-react";
-import {ServerDialog} from "@/components/server-dialog";
+import {ServerDialog} from "@/components/servers/dialog";
 
-export async function ServersOverview({servers}: {
+export async function Overview({servers}: {
     servers: { id: number; name: string; host: string; port: number | string; username: string; isOnline: boolean }[]
 }) {
 

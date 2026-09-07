@@ -9,21 +9,23 @@ import {
     FieldSeparator,
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
-import {login} from "@/app/actions";
 
-export function LoginForm() {
+import {signup} from "@/lib/actions";
+
+export function SignupForm() {
     return (
         <div className={cn("flex flex-col gap-6")}>
             <Card className="overflow-hidden p-0">
                 <CardContent className="grid p-0 md:grid-cols-2">
-                    <form action={login} className="p-6 md:p-8">
+                    <form className="p-6 md:p-8" action={signup}>
                         <FieldGroup>
                             <div className="flex flex-col items-center gap-2 text-center">
-                                <h1 className="text-2xl font-bold">Welcome back</h1>
-                                <p className="text-balance text-muted-foreground">
-                                    Login to your Quasar account
-                                </p>
+                                <h1 className="text-2xl font-bold">Create your account</h1>
                             </div>
+                            <Field>
+                                <FieldLabel htmlFor="username">Username</FieldLabel>
+                                <Input id="username" name="username" type="text" required/>
+                            </Field>
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
@@ -35,25 +37,25 @@ export function LoginForm() {
                                 />
                             </Field>
                             <Field>
-                                <div className="flex items-center">
+                                <Field>
                                     <FieldLabel htmlFor="password">Password</FieldLabel>
-                                    <a
-                                        href="#"
-                                        className="ml-auto underline-offset-2 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                                <Input id="password" name="password" type="password" required/>
+                                    <Input id="password" name="password" type="password" required/>
+                                </Field>
+                                <Field>
+                                    <FieldLabel htmlFor="confirm-password">
+                                        Confirm Password
+                                    </FieldLabel>
+                                    <Input id="confirm-password" name="confirm-password" type="password" required/>
+                                </Field>
                             </Field>
                             <Field>
-                                <Button type="submit">Login</Button>
+                                <Button type="submit">Create Account</Button>
                             </Field>
                             <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                                 Or continue with
                             </FieldSeparator>
                             <FieldDescription className="text-center">
-                                Don&apos;t have an account? <a href="/signup">Sign up</a>
+                                Already have an account? <a href="/login">Log in</a>
                             </FieldDescription>
                         </FieldGroup>
                     </form>

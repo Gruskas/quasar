@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {MoreHorizontalIcon} from "lucide-react"
 
-import {deleteServer} from "@/app/actions";
-import {ServerDialog, type ServerData} from "@/components/server-dialog";
+import {deleteServer} from "@/lib/actions";
+import {ServerDialog, type ServerData} from "@/components/servers/dialog";
 import {useState} from "react";
 
-export function ServerActionsMenu({server}: { server: ServerData }) {
+export function ActionsMenu({server}: { server: ServerData }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (

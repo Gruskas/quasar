@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation"
 import {getCurrentUser} from "@/lib/auth"
-import {UserProvider} from "@/components/user-provider"
-import {AppSidebar} from "@/components/app-sidebar"
+import {UserProvider} from "@/components/providers/user-provider"
+import {AppSidebar} from "@/components/sidebar/app-sidebar"
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar"
 import {Separator} from "@/components/ui/separator"
 import {

@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {Card} from "@/components/ui/card"
-import {ServerActionsMenu} from "@/components/server-actions-menu"
+import {ActionsMenu} from "@/components/servers/actions-menu"
 
 export async function ServersTable({servers}: {
     servers: { id: number; name: string; host: string; port: number | string; username: string; isOnline: boolean }[]
@@ -37,7 +37,7 @@ export async function ServersTable({servers}: {
                                 <TableCell className="p-2 text-destructive font-semibold">Offline</TableCell>
                             )}
                             <TableCell className="p-2">
-                                <ServerActionsMenu server={server}/>
+                                <ActionsMenu server={server}/>
                             </TableCell>
                         </TableRow>
                     ))}

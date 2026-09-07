@@ -1,6 +1,6 @@
 import {KeyRound, Pencil} from "lucide-react"
 
-export function VaultCard({name}: { name: string }) {
+export function VaultCard({name, onEdit}: { name: string; onEdit: () => void }) {
     return (
         <div
             className="group flex items-center gap-3 rounded-2xl border border-border/40 bg-card/80 p-3.5 transition-colors duration-300 hover:border-white">
@@ -18,6 +18,7 @@ export function VaultCard({name}: { name: string }) {
                 </span>
             </div>
             <button
+                onClick={onEdit}
                 className="ml-auto p-2 opacity-0 rounded-lg transition-opacity duration-200 group-hover:opacity-100 hover:bg-zinc-950/20">
                 <Pencil/>
             </button>

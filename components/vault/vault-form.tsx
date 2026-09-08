@@ -46,7 +46,7 @@ export default function VaultForm({
     return (
         <aside
             className={`transition-all duration-700 ease-in-out shrink-0 border-l border-border overflow-hidden ${
-                isOpen ? "w-80 opacity-100" : "w-0 opacity-0 border-none"
+                isOpen ? "w-81 opacity-100" : "w-0 opacity-0 border-none"
             }`}>
             <div className="p-4 space-y-4">
                 <div className="flex items-center justify-between">

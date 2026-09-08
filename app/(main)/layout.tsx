@@ -32,7 +32,9 @@ export default async function DashboardLayout({children}: { children: React.Reac
                     <header className="flex h-16 shrink-0 items-center gap-2 border-b">
                         <div className="flex items-center gap-2 px-3 w-full">
                             <SidebarTrigger/>
-                            <Separator orientation="vertical" className="mr-2 h-4"/>
+                            <div>
+                                <Separator orientation="vertical" className="h-4 self-center"/>
+                            </div>
                             <div className="flex items-center justify-between gap-2 px-3 w-full">
                                 <Breadcrumb>
                                     <BreadcrumbList>

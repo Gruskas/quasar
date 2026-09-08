@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import {VaultProvider} from "@/components/providers/vault-provider";
 import {getVaults} from "@/lib/vault";
+import {PageName} from "@/components/layout/page-name";
 
 export default async function DashboardLayout({children}: { children: React.ReactNode }) {
     const user = await getCurrentUser()
@@ -34,7 +35,9 @@ export default async function DashboardLayout({children}: { children: React.Reac
                             <Breadcrumb>
                                 <BreadcrumbList>
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Main</BreadcrumbPage>
+                                        <BreadcrumbPage>
+                                            <PageName/>
+                                        </BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>

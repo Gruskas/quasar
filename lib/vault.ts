@@ -3,6 +3,7 @@
 import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
+import {deleteServer} from "@/lib/actions";
 
 export async function getVaults(userId: string) {
     return (await db.vault.findMany({
@@ -56,6 +57,19 @@ export async function updateSSHKey(id: number, data: FormData) {
             updatedAt: new Date(),
         },
     });
+
+    revalidatePath("/vault")
+}
+
+export async function deleteSSHKey(id: number) {
+    const user = await getCurrentUser()
+    if(!user) {
+        throw new Error("Unauthorized")
+    }
+
+    await db.vault.delete({
+        where: {id, userId: user.id},
+    })
 
     revalidatePath("/vault")
 }

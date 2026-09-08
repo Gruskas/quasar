@@ -1,12 +1,11 @@
 import {Input} from "@/components/ui/input"
-import {addSSHKey, updateSSHKey} from "@/lib/vault";
+import {addSSHKey, deleteSSHKey, updateSSHKey} from "@/lib/vault";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
 import {Ellipsis, X} from "lucide-react";
 import {useState} from "react";
 import {Textarea} from "@/components/ui/textarea";
 import {DropdownMenu, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {deleteServer} from "@/lib/actions";
 
 export type VaultFormMode = "add" | "edit"
 
@@ -55,24 +54,30 @@ export default function VaultForm({
                         {method === "add" ? "Add Key" : "Edit Key"}
                     </h1>
                     <div className="flex items-center justify-end">
-                        <DropdownMenuTrigger>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label="More options"
-                                className="h-8 w-8"
-                            >
-                                <Ellipsis className="h-4 w-4"/>
-                            </Button>
-                            <DropdownMenu placement="bottom end">
-                                <DropdownMenuItem>
-                                    Duplicate
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive">
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenu>
-                        </DropdownMenuTrigger>
+                        {method === "edit" && (
+                            <DropdownMenuTrigger>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    aria-label="More options"
+                                    className="h-8 w-8"
+                                >
+                                    <Ellipsis className="h-4 w-4"/>
+                                </Button>
+                                <DropdownMenu placement="bottom end">
+                                    <DropdownMenuItem>
+                                        Duplicate
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="text-destructive" onAction={async () => {
+                                        if (initialData?.id) {
+                                            await deleteSSHKey(initialData.id)
+                                        }
+                                    }}>
+                                        Delete
+                                    </DropdownMenuItem>
+                                </DropdownMenu>
+                            </DropdownMenuTrigger>
+                        )}
                         <Button
                             variant="ghost"
                             size="icon"

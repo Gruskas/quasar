@@ -22,9 +22,8 @@ export default function RootLayout({children}: LayoutProps<"/">) {
         <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
-            forcedTheme="dark"
-            enableSystem={false}
+            defaultTheme="system"
+            enableSystem={true}
             disableTransitionOnChange
         >
             {children}

@@ -13,6 +13,7 @@ import {
 import {VaultProvider} from "@/components/providers/vault-provider";
 import {getVaults} from "@/lib/vault";
 import {PageName} from "@/components/layout/page-name";
+import {ThemeToggle} from "@/components/layout/theme-toggle";
 
 export default async function DashboardLayout({children}: { children: React.ReactNode }) {
     const user = await getCurrentUser()
@@ -29,18 +30,21 @@ export default async function DashboardLayout({children}: { children: React.Reac
                 <AppSidebar/>
                 <SidebarInset>
                     <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-                        <div className="flex items-center gap-2 px-3">
+                        <div className="flex items-center gap-2 px-3 w-full">
                             <SidebarTrigger/>
                             <Separator orientation="vertical" className="mr-2 h-4"/>
-                            <Breadcrumb>
-                                <BreadcrumbList>
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage>
-                                            <PageName/>
-                                        </BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </BreadcrumbList>
-                            </Breadcrumb>
+                            <div className="flex items-center justify-between gap-2 px-3 w-full">
+                                <Breadcrumb>
+                                    <BreadcrumbList>
+                                        <BreadcrumbItem>
+                                            <BreadcrumbPage>
+                                                <PageName/>
+                                            </BreadcrumbPage>
+                                        </BreadcrumbItem>
+                                    </BreadcrumbList>
+                                </Breadcrumb>
+                                <ThemeToggle/>
+                            </div>
                         </div>
                     </header>
                     <VaultProvider keys={keys}>

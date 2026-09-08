@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog"
 
 import {addServer, updateServer} from "@/lib/actions";
+import {AuthMethodSelect} from "@/components/servers/auth-method-select";
 
 type ServerDialogMode = "add" | "edit"
 
@@ -90,11 +91,11 @@ export function ServerDialog({
                             <Input id="username" name="username" defaultValue={initialData?.username}
                                    placeholder="root"/>
                         </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" name="password" type="password" placeholder="••••••••"
-                                   defaultValue={initialData?.password}/>
-                        </div>
+
+                        <AuthMethodSelect
+                            defaultValue={initialData?.password}
+                        />
+
                     </div>
 
                     <DialogFooter className="grid grid-cols-2 w-full pb-2">

@@ -42,6 +42,8 @@ model Vault {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  servers Server[]
 }
 
 model Server {
@@ -51,7 +53,10 @@ model Server {
   host     String
   port     Int
   username String
-  password String
+  password String?
+
+  sshKeyId Int?
+  sshKey   Vault? @relation(fields: [sshKeyId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -3,8 +3,8 @@
 import {revalidatePath} from "next/cache";
 import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
-import { setSessionCookie, deleteSessionCookie } from "@/lib/auth"
-import { getCurrentUser } from "@/lib/auth";
+import {setSessionCookie, deleteSessionCookie} from "@/lib/auth"
+import {getCurrentUser} from "@/lib/auth";
 
 export async function addServer(data: FormData) {
     const user = await getCurrentUser();
@@ -18,10 +18,13 @@ export async function addServer(data: FormData) {
     const port = data.get("port")?.toString();
     const username = data.get("username")?.toString();
     const password = data.get("password")?.toString();
+    const rawSSHKeyId = data.get("sshKeyId")?.toString();
 
-    if (!name || !host || !port || !username || !password) {
+    if (!name || !host || !port || !username || (!password && !rawSSHKeyId)) {
         throw new Error("Missing required fields");
     }
+
+    const sshKeyId = rawSSHKeyId ? parseInt(rawSSHKeyId) : null
 
     await db.server.create({
         data: {
@@ -29,7 +32,8 @@ export async function addServer(data: FormData) {
             host,
             port: parseInt(port),
             username,
-            password,
+            password: password || "",
+            sshKeyId: sshKeyId || null,
             userId: user.id,
         },
     });
@@ -97,7 +101,7 @@ export async function signup(formData: FormData) {
     }
 
     const existingUser = await db.user.findFirst({
-        where: { OR: [{ email }, { username }] },
+        where: {OR: [{email}, {username}]},
     });
 
     if (existingUser) {
@@ -126,7 +130,7 @@ export async function login(formData: FormData) {
         throw new Error("Email and password are required");
     }
 
-    const user = await db.user.findUnique({ where: { email } });
+    const user = await db.user.findUnique({where: {email}});
 
     if (!user || user.password !== password) {
         throw new Error("Invalid email or password");

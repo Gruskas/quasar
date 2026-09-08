@@ -10,6 +10,8 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
+import {VaultProvider} from "@/components/providers/vault-provider";
+import {getVaults} from "@/lib/vault";
 
 export default async function DashboardLayout({children}: { children: React.ReactNode }) {
     const user = await getCurrentUser()
@@ -17,6 +19,8 @@ export default async function DashboardLayout({children}: { children: React.Reac
     if (!user) {
         redirect("/login")
     }
+
+    const keys = await getVaults(user.id)
 
     return (
         <UserProvider user={user}>
@@ -36,7 +40,9 @@ export default async function DashboardLayout({children}: { children: React.Reac
                             </Breadcrumb>
                         </div>
                     </header>
-                    {children}
+                    <VaultProvider keys={keys}>
+                        {children}
+                    </VaultProvider>
                 </SidebarInset>
             </SidebarProvider>
         </UserProvider>

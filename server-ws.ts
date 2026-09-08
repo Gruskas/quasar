@@ -1,5 +1,5 @@
 import {WebSocketServer} from "ws"
-import {Client} from "ssh2"
+import {Client, ConnectConfig} from "ssh2"
 import {db} from "./lib/db"
 
 const wss = new WebSocketServer({port: 3001})
@@ -21,11 +21,32 @@ wss.on("connection", async (ws, req) => {
             port: true,
             username: true,
             password: true,
+            sshKeyId: true,
+            sshKey: {
+                select: {
+                    privateKey: true,
+                }
+            }
         }
     })
 
     if (!serverData) {
         ws.close(1008, "Server not found")
+        return
+    }
+
+    const sshConfig: ConnectConfig = {
+        host: serverData.host,
+        port: serverData.port,
+        username: serverData.username
+    }
+
+    if(serverData.password) {
+        sshConfig.password = serverData.password
+    } else if (serverData.sshKey?.privateKey) {
+        sshConfig.privateKey = serverData.sshKey?.privateKey
+    } else {
+        ws.close(1008, "No password or SSH key provided")
         return
     }
 
@@ -65,12 +86,7 @@ wss.on("connection", async (ws, req) => {
         ws.close()
     })
 
-    ssh.connect({
-        host: serverData.host,
-        port: Number(serverData.port),
-        username: serverData.username,
-        password: serverData.password,
-    })
+    ssh.connect(sshConfig)
 
     ws.on("close", () => {
         ssh.end()

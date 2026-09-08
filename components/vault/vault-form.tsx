@@ -2,9 +2,11 @@ import {Input} from "@/components/ui/input"
 import {addSSHKey, updateSSHKey} from "@/lib/vault";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
-import {X} from "lucide-react";
+import {Ellipsis, X} from "lucide-react";
 import {useState} from "react";
 import {Textarea} from "@/components/ui/textarea";
+import {DropdownMenu, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {deleteServer} from "@/lib/actions";
 
 export type VaultFormMode = "add" | "edit"
 
@@ -49,19 +51,39 @@ export default function VaultForm({
             }`}>
             <div className="p-4 space-y-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-lg font-bold">
+                    <h1 className="text-lg font-bold truncate">
                         {method === "add" ? "Add Key" : "Edit Key"}
                     </h1>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8"
-                        onClick={() => {
-                            setIsOpen(false)
-                        }}
-                    >
-                        <X/>
-                    </Button>
+                    <div className="flex items-center justify-end">
+                        <DropdownMenuTrigger>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label="More options"
+                                className="h-8 w-8"
+                            >
+                                <Ellipsis className="h-4 w-4"/>
+                            </Button>
+                            <DropdownMenu placement="bottom end">
+                                <DropdownMenuItem>
+                                    Duplicate
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive">
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenu>
+                        </DropdownMenuTrigger>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}
+                        >
+                            <X/>
+                        </Button>
+                    </div>
                 </div>
 
                 <form action={handleSubmit} className="space-y-6">
@@ -77,9 +99,10 @@ export default function VaultForm({
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="privateKey">Private Key</Label>
-                        <Textarea className="h-100" id="privateKey" name="privateKey" defaultValue={initialData?.privateKey}
-                               placeholder="-----BEGIN RSA PRIVATE KEY-----"
-                               required/>
+                        <Textarea className="h-100" id="privateKey" name="privateKey"
+                                  defaultValue={initialData?.privateKey}
+                                  placeholder="-----BEGIN RSA PRIVATE KEY-----"
+                                  required/>
                     </div>
                     <Button type="submit" className="w-full">
                         {method === "add" ? "Save Key" : "Update Key"}

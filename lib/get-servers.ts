@@ -14,8 +14,10 @@ export async function getServersWithStatus(userId: string) {
     const serversWithStatus = await Promise.all(
         servers.map(async (server) => {
             const isOnline = await isServerOnline(server.host, server.port)
+            const authMethod = server.sshKeyId ? "SSH Key" : "Password"
             return {
                 ...server,
+                authMethod,
                 isOnline,
             }
         })

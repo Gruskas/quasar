@@ -9,8 +9,18 @@ import {
 import {Card} from "@/components/ui/card"
 import {ActionsMenu} from "@/components/servers/actions-menu"
 
+interface ServersTableProps {
+    id: number;
+    name: string;
+    host: string;
+    port: number | string;
+    username: string;
+    authMethod: string
+    isOnline: boolean
+}
+
 export async function ServersTable({servers}: {
-    servers: { id: number; name: string; host: string; port: number | string; username: string; isOnline: boolean }[]
+    servers: ServersTableProps[]
 }) {
 
     return (
@@ -21,6 +31,7 @@ export async function ServersTable({servers}: {
                     <TableHead className="p-2 font-semibold text-left">IP / Host</TableHead>
                     <TableHead className="p-2 font-semibold text-left">Port</TableHead>
                     <TableHead className="p-2 font-semibold text-left">User</TableHead>
+                    <TableHead className="p-2 font-semibold text-left">Authentication</TableHead>
                     <TableHead className="p-2 font-semibold text-left">Status</TableHead>
                     <TableHead className="p-2 font-semibold text-left">Actions</TableHead>
                 </TableHeader>
@@ -31,6 +42,7 @@ export async function ServersTable({servers}: {
                             <TableCell className="p-2">{server.host}</TableCell>
                             <TableCell className="p-2">{server.port}</TableCell>
                             <TableCell className="p-2">{server.username}</TableCell>
+                            <TableCell className="p-2">{server.authMethod}</TableCell>
                             {server.isOnline ? (
                                 <TableCell className="p-2 text-emerald-500 font-semibold">Online</TableCell>
                             ) : (

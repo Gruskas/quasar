@@ -33,6 +33,10 @@ const data = {
                     title: "Vault",
                     url: "/vault",
                 },
+                {
+                    title: "RDP",
+                    url: "/rdp",
+                },
             ],
         },
         {

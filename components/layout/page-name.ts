@@ -7,4 +7,5 @@ export function PageName() {
 
     if (pathName === "/") return "Main"
     if (pathName === "/vault") return "Vault"
+    if (pathName === "/rdp") return "RDP"
 }

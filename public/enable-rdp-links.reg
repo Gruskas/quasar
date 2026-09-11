@@ -1,0 +1,17 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\rdp]
+@="URL:Remote Desktop Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\rdp\shell]
+
+[HKEY_CLASSES_ROOT\rdp\shell\open]
+
+[HKEY_CLASSES_ROOT\rdp\shell\open\command]
+@="powershell -NoProfile -WindowStyle Hidden -Command \"$raw='%1' -replace 'rdp://','';
+ $p=$raw.Split('/'); $h=$p[0]; $user=$p[1]; $password=$p[2];
+ cmdkey.exe /generic:TERMSRV/$h /user:$user /pass:$password | Out-Null;
+ $tmp=[IO.Path]::GetTempFileName()+'.rdp'; @('full address:s:'+$h,'username:s:'+$user,'prompt for credentials:i:0') | Set-Content $tmp;
+ Start-Process mstsc.exe -ArgumentList $tmp -Wait; Remove-Item $tmp -Force -ErrorAction SilentlyContinue;
+ cmdkey.exe /delete:TERMSRV/$h | Out-Null;\""

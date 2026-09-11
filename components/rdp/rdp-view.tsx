@@ -36,6 +36,7 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
                         {desktops.map((desktop) => (
                             <RDPCard
                                 key={desktop.id}
+                                id={desktop.id}
                                 name={desktop.name}
                                 onEdit={() => handleOpenEdit(desktop)}
                             />

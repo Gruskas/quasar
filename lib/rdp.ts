@@ -101,3 +101,43 @@ export async function deleteRDP(id: number) {
 
     revalidatePath("/rdp")
 }
+
+export async function generateRdpBatchFile(id: number) {
+    const user = await getCurrentUser()
+    if (!user) {
+        throw new Error("Unauthorized")
+    }
+
+    const rdp = await db.rdp.findFirst({
+        where: {id, userId: user.id},
+        select: {
+            host: true,
+            port: true,
+            username: true,
+            password: true,
+        }
+    })
+
+    if (!rdp) {
+        throw new Error("RDP not found")
+    }
+
+    const host = rdp.host
+    const port = rdp.port
+    const username = rdp.username
+    const password = rdp.password
+
+    return (
+        "@echo off\n" +
+        "set \"TEMP_RDP=%TEMP%\\temp_%RANDOM%.rdp\"\n" +
+        "\n" +
+        `echo full address:s:${host}:${port} > "%TEMP_RDP%"\n` +
+        "echo prompt for credentials:i:0 >> \"%TEMP_RDP%\"\n" +
+        `cmdkey /generic:TERMSRV/${host} /user:${username} /pass:${password}\n` +
+        `start "" mstsc "%TEMP_RDP%"\n` +
+        `start "" /b cmd /c "timeout /t 1 /nobreak >nul & del /f /q \"%~f0\""\n` +
+        "timeout /t 1 /nobreak >nul\n" +
+        "if exist \"%TEMP_RDP%\" del /f /q \"%TEMP_RDP%\"\n" +
+        `start "" /b cmd /c "timeout /t 5 /nobreak >nul & cmdkey /delete:TERMSRV/${host} >nul 2>&1"\n`
+    )
+}

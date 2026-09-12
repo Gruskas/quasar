@@ -141,3 +141,26 @@ export async function generateRdpBatchFile(id: number) {
         `start "" /b cmd /c "timeout /t 5 /nobreak >nul & cmdkey /delete:TERMSRV/${host} >nul 2>&1"\n`
     )
 }
+
+export async function getRdpConnectionLink(id: number) {
+    const user = await getCurrentUser()
+    if (!user) {
+        throw new Error("Unauthorized")
+    }
+
+    const rdp = await db.rdp.findFirst({
+        where: {id, userId: user.id},
+        select: {
+            host: true,
+            port: true,
+            username: true,
+            password: true,
+        }
+    })
+
+    if (!rdp) {
+        throw new Error("RDP not found")
+    }
+
+    return `rdp://${rdp.host}:${rdp.port}/${rdp.username}/${rdp.password}`
+}

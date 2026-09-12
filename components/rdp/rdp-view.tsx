@@ -11,6 +11,17 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
     const [isOpen, setIsOpen] = useState(false)
     const [mode, setMode] = useState<VaultFormMode>("add")
     const [selectedDesktop, setSelectedDesktop] = useState<RDPData | null>(null)
+    const [connectionMode, setConnectionMode] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("rdp-connection-mod") ?? "bat"
+        }
+        return "bat"
+    })
+
+    const handleModeChange = (mode: string) => {
+        setConnectionMode(mode)
+        localStorage.setItem("rdp-connection-mode", mode)
+    }
 
     const handleOpenAdd = () => {
         setMode("add")
@@ -28,7 +39,11 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
         <div className="flex h-full w-full overflow-hidden">
             <div className="flex flex-1 flex-col gap-6 p-6">
 
-                <RDPActionBar onAdd={handleOpenAdd}/>
+                <RDPActionBar
+                    onAdd={handleOpenAdd}
+                    connectionMode={connectionMode}
+                    onModeChange={handleModeChange}
+                />
 
                 <div className="space-y-3">
                     <h2 className="text-sm text-muted-foreground">Available Connections</h2>
@@ -38,6 +53,7 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
                                 key={desktop.id}
                                 id={desktop.id}
                                 name={desktop.name}
+                                connectionMode={connectionMode}
                                 onEdit={() => handleOpenEdit(desktop)}
                             />
                         ))}

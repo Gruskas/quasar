@@ -1,7 +1,12 @@
 import {Monitor, Pencil} from "lucide-react"
-import {generateRdpBatchFile} from "@/lib/rdp";
+import {generateRdpBatchFile, getRdpConnectionLink} from "@/lib/rdp";
 
-export function RDPCard({name, id, onEdit}: { name: string; id: number; onEdit: () => void }) {
+export function RDPCard({name, id, connectionMode, onEdit}: {
+    name: string;
+    id: number;
+    connectionMode: string;
+    onEdit: () => void
+}) {
 
     const handleDownload = async () => {
         const batchFile = await generateRdpBatchFile(id)
@@ -13,13 +18,18 @@ export function RDPCard({name, id, onEdit}: { name: string; id: number; onEdit: 
         link.click()
     }
 
+    const handleConnect = async () => {
+        const rdpUrl = await getRdpConnectionLink(id)
+        window.location.href = rdpUrl
+    }
+
     return (
         <div
             className="group flex items-center gap-3 rounded-2xl border border-border/40 bg-card/80 p-3.5 transition-colors duration-300 hover:border-white">
             <div
                 className="flex shrink-0 h-11 w-11 items-center justify-center rounded-xl bg-black text-white">
                 <button
-                    onClick={handleDownload}
+                    onClick={connectionMode === "bat" ? handleDownload : handleConnect}
                 >
                     <Monitor className="h-5 w-5"/>
                 </button>

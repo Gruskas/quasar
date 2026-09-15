@@ -1,4 +1,4 @@
-import {Monitor, PlayIcon, SquarePenIcon} from "lucide-react"
+import {DownloadIcon, Monitor, PlayIcon, SquarePenIcon} from "lucide-react"
 import {generateRdpBatchFile, getRdpConnectionLink} from "@/lib/rdp";
 import {RdpConnectionStatus} from "@/components/rdp/rdp-connection-status";
 
@@ -51,11 +51,20 @@ export function RDPCard({name, id, host, port, connectionMode, onEdit}: {
                 </div>
 
                 <div className="flex items-center justify-end gap-1 pt-2 w-full">
-                    <button onClick={connectionMode === "bat" ? handleDownload : handleConnect}
-                            className="flex p-2 gap-1 rounded-lg w-full bg-blue-500 text-xs font-semibold items-center justify-center text-white">
-                        <PlayIcon className="h-4 w-4"/>
-                        <span>Connect</span>
-                    </button>
+                    {connectionMode === "bat" ? (
+                        <button onClick={handleDownload}
+                                className="flex p-2 gap-1 rounded-lg w-full bg-blue-500 text-xs font-semibold items-center justify-center text-white">
+                            <DownloadIcon className="h-4 w-4"/>
+                            <span>Download</span>
+                        </button>
+                    ) : (
+                        <button onClick={handleConnect}
+                                className="flex p-2 gap-1 rounded-lg w-full bg-blue-500 text-xs font-semibold items-center justify-center text-white">
+                            <PlayIcon className="h-4 w-4"/>
+                            <span>Connect</span>
+                        </button>
+                    )}
+
                     <button
                         onClick={onEdit}
                         className="p-2 rounded-lg">

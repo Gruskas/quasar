@@ -24,7 +24,7 @@ export async function ServersTable({servers}: {
 }) {
 
     return (
-        <Card className="min-h-screen flex-1 rounded-xl md:min-h-min p-4">
+        <Card className="min-h-screen flex-1 rounded-xl md:min-h-min p-4 bg-(--card-server-bg)">
             <Table aria-label="Servers List">
                 <TableHeader>
                     <TableHead isRowHeader className="p-2 font-semibold text-left">Name</TableHead>

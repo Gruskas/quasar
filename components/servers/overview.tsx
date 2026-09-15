@@ -12,7 +12,7 @@ export async function Overview({servers}: {
 
     return (
         <div className="flex flex-col md:flex-row gap-4">
-            <Card className="flex-1">
+            <Card className="flex-1 bg-(--card-server-bg)">
                 <CardHeader className="flex flex-row justify-between pb-2">
                     <CardTitle className="text-sm font-medium">All Servers</CardTitle>
                     <Server className="h-4 w-4 text-muted-foreground"/>
@@ -23,7 +23,7 @@ export async function Overview({servers}: {
                 </CardContent>
             </Card>
 
-            <Card className="flex-1">
+            <Card className="flex-1 bg-(--card-server-bg)">
                 <CardHeader className="flex flex-row justify-between pb-2">
                     <CardTitle className="text-sm font-medium">Online</CardTitle>
                     <Activity className="h-4 w-4 text-emerald-500"/>
@@ -33,7 +33,7 @@ export async function Overview({servers}: {
                 </CardContent>
             </Card>
 
-            <Card className="flex-1">
+            <Card className="flex-1 bg-(--card-server-bg)">
                 <CardHeader className="flex flex-row justify-between pb-2">
                     <CardTitle className="text-sm font-medium">Offline</CardTitle>
                     <AlertCircle className="h-4 w-4 text-rose-500"/>

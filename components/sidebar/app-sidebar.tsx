@@ -11,41 +11,37 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem,
+    SidebarMenuItem, SidebarSeparator,
 } from "@/components/ui/sidebar"
 import {
     TerminalSquareIcon,
-    Notebook,
+    Notebook, MonitorIcon, LockKeyholeIcon,
 } from "lucide-react"
+import {Separator} from "@/components/ui/separator";
 
 const data = {
     navMain: [
         {
             title: "Servers",
             url: "/",
-            icon: (
-                <TerminalSquareIcon
-                />
-            ),
-            isActive: true,
-            items: [
-                {
-                    title: "Vault",
-                    url: "/vault",
-                },
-                {
-                    title: "RDP",
-                    url: "/rdp",
-                },
-            ],
+            icon: <TerminalSquareIcon/>,
         },
+        {
+            title: "Vault",
+            url: "/vault",
+            icon: <LockKeyholeIcon/>,
+        },
+        {
+            title: "RDP",
+            url: "/rdp",
+            icon: <MonitorIcon/>,
+        },
+    ],
+    navSecondary: [
         {
             title: "Notebook",
             url: "#",
-            icon: (
-                <Notebook
-                />
-            ),
+            icon: <Notebook/>,
             items: [
                 {
                     title: "General",
@@ -56,10 +52,7 @@ const data = {
         {
             title: "TODO",
             url: "#",
-            icon: (
-                <Notebook
-                />
-            ),
+            icon: <Notebook/>,
             items: [
                 {
                     title: "General",
@@ -76,7 +69,8 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton href="/" size="lg">
+                        <SidebarMenuButton href="/" size="lg"
+                                           className="rounded-none hover:bg-transparent active:bg-transparent">
                             <div className="flex-1 text-center text-3xl leading-tight">
                                 <span className="truncate font-bold">Quasar</span>
                             </div>
@@ -86,6 +80,8 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain}/>
+                <Separator/>
+                <NavMain items={data.navSecondary}/>
             </SidebarContent>
             <SidebarFooter>
                 <NavUser/>

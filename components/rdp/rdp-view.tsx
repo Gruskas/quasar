@@ -1,6 +1,6 @@
 "use client"
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {VaultFormMode} from "@/components/vault/vault-form";
 import {RDPCard} from "@/components/rdp/rdp-card";
 import {RDPActionBar} from "@/components/rdp/rdp-actionbar";
@@ -13,7 +13,7 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
     const [selectedDesktop, setSelectedDesktop] = useState<RDPData | null>(null)
     const [connectionMode, setConnectionMode] = useState(() => {
         if (typeof window !== "undefined") {
-            return localStorage.getItem("rdp-connection-mod") ?? "bat"
+            return localStorage.getItem("rdp-connection-mode") ?? "bat"
         }
         return "bat"
     })

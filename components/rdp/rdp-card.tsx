@@ -1,9 +1,12 @@
-import {Monitor, Pencil} from "lucide-react"
+import {Monitor, PlayIcon, SquarePenIcon} from "lucide-react"
 import {generateRdpBatchFile, getRdpConnectionLink} from "@/lib/rdp";
+import {RdpConnectionStatus} from "@/components/rdp/rdp-connection-status";
 
-export function RDPCard({name, id, connectionMode, onEdit}: {
+export function RDPCard({name, id, host, port, connectionMode, onEdit}: {
     name: string;
     id: number;
+    host: string;
+    port: number;
     connectionMode: string;
     onEdit: () => void
 }) {
@@ -25,26 +28,41 @@ export function RDPCard({name, id, connectionMode, onEdit}: {
 
     return (
         <div
-            className="group flex items-center gap-3 rounded-2xl border border-border/40 bg-card/80 p-3.5 transition-colors duration-300 hover:border-white">
+            className="group flex flex-col gap-3 rounded-2xl border border-border/40 bg-card/80 p-3.5 transition-colors duration-300 hover:border-white">
             <div
-                className="flex shrink-0 h-11 w-11 items-center justify-center rounded-xl bg-black text-white">
-                <button
-                    onClick={connectionMode === "bat" ? handleDownload : handleConnect}
-                >
-                    <Monitor className="h-5 w-5"/>
-                </button>
-            </div>
+                className="flex items-center gap-3">
+                <div
+                    className="flex shrink-0 h-11 w-11 items-center justify-center rounded-xl bg-blue-950 text-white">
+                    <Monitor className="h-5 w-5 text-blue-400"/>
+                </div>
 
-            <div className="flex flex-col min-w-0">
+                <div className="flex flex-col min-w-0">
                 <span className="font-semibold text-sm text-foreground truncate">
                     {name}
                 </span>
+                    <span className="font-semibold text-xs text-muted-foreground truncate">
+                    {host}:{port}
+                </span>
+                </div>
             </div>
-            <button
-                onClick={onEdit}
-                className="ml-auto p-2 opacity-0 rounded-lg transition-opacity duration-200 group-hover:opacity-100 hover:bg-zinc-950/20">
-                <Pencil/>
-            </button>
+            <div>
+                <div className="flex flex-col min-w-0 flex-1">
+                    <RdpConnectionStatus host={host} port={port}/>
+                </div>
+
+                <div className="flex items-center justify-end gap-1 pt-2 w-full">
+                    <button onClick={connectionMode === "bat" ? handleDownload : handleConnect}
+                            className="flex p-2 gap-1 rounded-lg w-full bg-blue-500 text-xs font-semibold items-center justify-center text-white">
+                        <PlayIcon className="h-4 w-4"/>
+                        <span>Connect</span>
+                    </button>
+                    <button
+                        onClick={onEdit}
+                        className="p-2 rounded-lg">
+                        <SquarePenIcon className="h-5 w-5"/>
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

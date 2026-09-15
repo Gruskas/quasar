@@ -46,13 +46,15 @@ export function RDPView({desktops}: { desktops: RDPData[] }) {
                 />
 
                 <div className="space-y-3">
-                    <h2 className="text-sm text-muted-foreground">Available Connections</h2>
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <h2 className="text-sm text-muted-foreground">RDP connections</h2>
+                    <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         {desktops.map((desktop) => (
                             <RDPCard
                                 key={desktop.id}
                                 id={desktop.id}
                                 name={desktop.name}
+                                host={desktop.host}
+                                port={desktop.port}
                                 connectionMode={connectionMode}
                                 onEdit={() => handleOpenEdit(desktop)}
                             />

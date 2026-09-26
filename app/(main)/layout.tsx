@@ -13,7 +13,7 @@ import {
 import {VaultProvider} from "@/components/providers/vault-provider";
 import {getVaults} from "@/lib/vault";
 import {PageName} from "@/components/layout/page-name";
-import {ThemeToggle} from "@/components/layout/theme-toggle";
+import {LiveClock} from "@/components/layout/LiveClock";
 
 export default async function DashboardLayout({children}: { children: React.ReactNode }) {
     const user = await getCurrentUser()
@@ -45,6 +45,7 @@ export default async function DashboardLayout({children}: { children: React.Reac
                                         </BreadcrumbItem>
                                     </BreadcrumbList>
                                 </Breadcrumb>
+                                <LiveClock />
                             </div>
                         </div>
                     </header>

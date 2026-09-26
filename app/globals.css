@@ -120,6 +120,7 @@
   --sidebar-ring: oklch(0.45 0 0);
 
   --card-server-bg: oklch(0.16 0 0);
+  --input-auth-bg: oklch(0.25 0 0);
 }
 
 @layer base {

@@ -6,7 +6,7 @@ import {
     FieldDescription,
     FieldGroup,
     FieldLabel,
-    FieldSeparator,
+
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {login} from "@/lib/actions";
@@ -27,6 +27,7 @@ export function LoginForm() {
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
+                                    className="bg-(--input-auth-bg)"
                                     id="email"
                                     name="email"
                                     type="email"
@@ -44,14 +45,11 @@ export function LoginForm() {
                                         Forgot your password?
                                     </a>
                                 </div>
-                                <Input id="password" name="password" type="password" required/>
+                                <Input className="bg-(--input-auth-bg)" id="password" name="password" type="password" required/>
                             </Field>
                             <Field>
                                 <Button type="submit">Login</Button>
                             </Field>
-                            <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                                Or continue with
-                            </FieldSeparator>
                             <FieldDescription className="text-center">
                                 Don&apos;t have an account? <a href="/signup">Sign up</a>
                             </FieldDescription>

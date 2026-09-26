@@ -24,11 +24,12 @@ export function SignupForm() {
                             </div>
                             <Field>
                                 <FieldLabel htmlFor="username">Username</FieldLabel>
-                                <Input id="username" name="username" type="text" required/>
+                                <Input className="bg-(--input-auth-bg)" id="username" name="username" type="text" required/>
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
+                                    className="bg-(--input-auth-bg)"
                                     id="email"
                                     name="email"
                                     type="email"
@@ -39,13 +40,13 @@ export function SignupForm() {
                             <Field>
                                 <Field>
                                     <FieldLabel htmlFor="password">Password</FieldLabel>
-                                    <Input id="password" name="password" type="password" required/>
+                                    <Input className="bg-(--input-auth-bg)" id="password" name="password" type="password" required/>
                                 </Field>
                                 <Field>
                                     <FieldLabel htmlFor="confirm-password">
                                         Confirm Password
                                     </FieldLabel>
-                                    <Input id="confirm-password" name="confirm-password" type="password" required/>
+                                    <Input className="bg-(--input-auth-bg)" id="confirm-password" name="confirm-password" type="password" required/>
                                 </Field>
                             </Field>
                             <Field>

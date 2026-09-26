@@ -40,6 +40,8 @@ export function VaultView({keys}: { keys: SSHKeyData[] }) {
                             <VaultCard
                                 key={key.id}
                                 name={key.name}
+                                keyType={key.keyType}
+                                keyBits={key.keyBits}
                                 onEdit={() => handleOpenEdit(key)}
                             />
                         ))}

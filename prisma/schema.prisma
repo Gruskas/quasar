@@ -38,6 +38,8 @@ model Vault {
   name       String
   publicKey  String?
   privateKey String
+  keyType String
+  keyBits Int?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

@@ -1,6 +1,6 @@
 import {KeyRound, Pencil} from "lucide-react"
 
-export function VaultCard({name, onEdit}: { name: string; onEdit: () => void }) {
+export function VaultCard({name, keyType, keyBits, onEdit}: { name: string; keyType: string, keyBits?: number | null, onEdit: () => void }) {
     return (
         <div
             className="group flex items-center gap-3 rounded-2xl border border-border/40 bg-card/80 p-3.5 transition-colors duration-300 hover:border-white">
@@ -14,7 +14,7 @@ export function VaultCard({name, onEdit}: { name: string; onEdit: () => void }) 
                     {name}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                    SSH Key
+                    SSH Key {keyType} {keyBits}
                 </span>
             </div>
             <button

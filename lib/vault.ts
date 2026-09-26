@@ -4,6 +4,7 @@ import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {deleteServer} from "@/lib/actions";
+import {getSSHKeyType} from "@/lib/sshKey";
 
 export async function getVaults(userId: string) {
     return (await db.vault.findMany({
@@ -25,6 +26,7 @@ export async function addSSHKey(data: FormData) {
     const name = data.get("name") as string
     const publicKey = data.get("publicKey")?.toString();
     const privateKey = data.get("privateKey") as string;
+    const keyInfo = getSSHKeyType(privateKey)
 
     await db.vault.create({
         data: {
@@ -32,6 +34,8 @@ export async function addSSHKey(data: FormData) {
             name,
             publicKey: publicKey || null,
             privateKey,
+            keyType: keyInfo.keyType,
+            keyBits: keyInfo.bits || null,
         },
     })
 

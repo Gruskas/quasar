@@ -14,6 +14,8 @@ export interface SSHKeyData {
     name: string
     publicKey?: string | null
     privateKey: string
+    keyType: string
+    keyBits?: number | null
 }
 
 interface VaultFormProps {

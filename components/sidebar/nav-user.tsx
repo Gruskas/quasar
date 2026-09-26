@@ -23,6 +23,7 @@ import {ChevronsUpDownIcon, LogOutIcon, SettingsIcon} from "lucide-react"
 
 import {useUser} from "@/components/providers/user-provider"
 import {logout} from "@/lib/actions";
+import {ThemeToggle} from "@/components/layout/theme-toggle";
 
 export function NavUser() {
     const user = useUser()
@@ -63,6 +64,9 @@ export function NavUser() {
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator/>
                         <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                                <ThemeToggle/>
+                            </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <SettingsIcon/>
                                 settings

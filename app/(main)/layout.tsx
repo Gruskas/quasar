@@ -45,7 +45,6 @@ export default async function DashboardLayout({children}: { children: React.Reac
                                         </BreadcrumbItem>
                                     </BreadcrumbList>
                                 </Breadcrumb>
-                                <ThemeToggle/>
                             </div>
                         </div>
                     </header>

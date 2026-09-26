@@ -52,9 +52,6 @@ export function SignupForm() {
                             <Field>
                                 <Button type="submit">Create Account</Button>
                             </Field>
-                            <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                                Or continue with
-                            </FieldSeparator>
                             <FieldDescription className="text-center">
                                 Already have an account? <a href="/login">Log in</a>
                             </FieldDescription>

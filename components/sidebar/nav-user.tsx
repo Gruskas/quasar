@@ -24,61 +24,71 @@ import {ChevronsUpDownIcon, LogOutIcon, SettingsIcon} from "lucide-react"
 import {useUser} from "@/components/providers/user-provider"
 import {logout} from "@/lib/actions";
 import {ThemeToggle} from "@/components/layout/theme-toggle";
+import {QuasarSettings} from "@/components/settings/QuasarSettings";
+import {useState} from "react";
 
 export function NavUser() {
     const user = useUser()
+    const [settingsOpen, setSettingsOpen] = useState(false)
     const {isMobile} = useSidebar()
     return (
-        <SidebarMenu>
-            <SidebarMenuItem>
-                <DropdownMenuTrigger>
-                    <SidebarMenuButton size="lg" className="aria-expanded:bg-muted">
-                        <Avatar>
-                            {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-medium">{user?.username}</span>
-                            {/*<span className="truncate text-xs">{user.email}</span>*/}
-                        </div>
-                        <ChevronsUpDownIcon className="ml-auto size-4"/>
-                    </SidebarMenuButton>
-                    <DropdownMenu
-                        className="min-w-56 rounded-lg"
-                        placement={isMobile ? "bottom end" : "right bottom"}
-                        offset={4}
-                    >
-                        <DropdownMenuGroup>
-                            <DropdownMenuLabel className="p-0 font-normal">
-                                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    <Avatar>
-                                        {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid flex-1 text-left text-sm leading-tight">
-                                        <span className="truncate font-medium">{user?.username}</span>
-                                        {/*<span className="truncate text-xs">{user.email}</span>*/}
+        <>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <DropdownMenuTrigger>
+                        <SidebarMenuButton size="lg" className="aria-expanded:bg-muted">
+                            <Avatar>
+                                {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                <span className="truncate font-medium">{user?.username}</span>
+                                {/*<span className="truncate text-xs">{user.email}</span>*/}
+                            </div>
+                            <ChevronsUpDownIcon className="ml-auto size-4"/>
+                        </SidebarMenuButton>
+                        <DropdownMenu
+                            className="min-w-56 rounded-lg"
+                            placement={isMobile ? "bottom end" : "right bottom"}
+                            offset={4}
+                        >
+                            <DropdownMenuGroup>
+                                <DropdownMenuLabel className="p-0 font-normal">
+                                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                                        <Avatar>
+                                            {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight">
+                                            <span className="truncate font-medium">{user?.username}</span>
+                                            {/*<span className="truncate text-xs">{user.email}</span>*/}
+                                        </div>
                                     </div>
-                                </div>
-                            </DropdownMenuLabel>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator/>
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <ThemeToggle/>
+                                </DropdownMenuLabel>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <ThemeToggle/>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onAction={() => setSettingsOpen(true)}>
+                                    <SettingsIcon/>
+                                    Settings
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuItem onAction={() => logout()}>
+                                <LogOutIcon/> Log out
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <SettingsIcon/>
-                                settings
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator/>
-                        <DropdownMenuItem onAction={() => logout()}>
-                            <LogOutIcon/> Log out
-                        </DropdownMenuItem>
-                    </DropdownMenu>
-                </DropdownMenuTrigger>
-            </SidebarMenuItem>
-        </SidebarMenu>
+                        </DropdownMenu>
+                    </DropdownMenuTrigger>
+                </SidebarMenuItem>
+            </SidebarMenu>
+
+            <QuasarSettings
+                isOpen={settingsOpen}
+                onOpenChange={setSettingsOpen}
+            />
+        </>
     )
 }

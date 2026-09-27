@@ -14,7 +14,7 @@ export async function getCurrentUser() {
 
     const session = await db.session.findUnique({
         where: {token},
-        include: {user: {select: {id: true, username: true}}},
+        include: {user: {select: {id: true, username: true, email: true}}},
     })
 
     if (!session || session.expiresAt < new Date()) {

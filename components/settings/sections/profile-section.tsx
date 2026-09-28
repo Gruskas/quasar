@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {useUser} from "@/components/providers/user-provider";
 import {updateUsername, uploadAvatar} from "@/lib/actions";
 import {useState} from "react";
+import {Avatar, AvatarImage} from "@/components/ui/avatar";
 
 export function ProfileSection() {
     const user = useUser()
@@ -15,18 +16,17 @@ export function ProfileSection() {
             <div className="text-base font-semibold">Profile</div>
 
             <div className="flex items-center gap-3 py-4 border-b">
-                <div
-                    className="w-14 h-14 rounded-full bg-primary/15 flex items-center justify-center text-lg font-semibold shrink-0 overflow-hidden">
+                <Avatar
+                    className="w-14 h-14">
                     {user?.avatar ? (
-                        <img
+                        <AvatarImage
                             src={user.avatar}
                             alt={user.username}
-                            className="w-full h-full object-cover"
                         />
                     ) : (
                         user?.username ? user.username.slice(0, 2).toUpperCase() : null
                     )}
-                </div>
+                </Avatar>
                 <div>
                     <div className="font-medium">{user?.username}</div>
                     <div className="text-xs text-muted-foreground">{user?.email}</div>

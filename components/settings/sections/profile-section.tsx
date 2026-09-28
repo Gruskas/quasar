@@ -13,9 +13,16 @@ export function ProfileSection() {
             <div className="text-base font-semibold">Profile</div>
 
             <div className="flex items-center gap-3 py-4 border-b">
-                <div
-                    className="w-14 h-14 rounded-full bg-primary/15 flex items-center justify-center text-lg font-semibold">
-                    TEST
+                <div className="w-14 h-14 rounded-full bg-primary/15 flex items-center justify-center text-lg font-semibold shrink-0 overflow-hidden">
+                    {user?.avatar ? (
+                        <img
+                            src={user.avatar}
+                            alt={user.username}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        user?.username ? user.username.slice(0, 2).toUpperCase() : null
+                    )}
                 </div>
                 <div>
                     <div className="font-medium">{user?.username}</div>

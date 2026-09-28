@@ -162,7 +162,7 @@ export async function updateUsername(newUsername: string) {
         data: {username: newUsername},
     })
 
-
+    revalidatePath("/")
 }
 
 export async function uploadAvatar(formData: FormData) {

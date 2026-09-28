@@ -32,14 +32,14 @@ export function ProfileSection() {
                     <Input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => {
+                        onChange={async (e) => {
                             const file = e.target.files?.[0];
                             if (!file) return;
 
                             const data = new FormData();
                             data.append("avatar", file);
 
-                            uploadAvatar(data);
+                            await uploadAvatar(data);
                         }}
                         className="hidden"/>
                     <span>Change avatar</span>

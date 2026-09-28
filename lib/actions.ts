@@ -183,7 +183,7 @@ export async function uploadAvatar(formData: FormData) {
     const buffer = Buffer.from(bytes)
 
     const uploadDir = path.join(process.cwd(), "avatars")
-    await mkdir(uploadDir);
+    await mkdir(uploadDir, {recursive: true});
 
     const filePath = path.join(uploadDir, `${user.id}.png`)
     await writeFile(filePath, buffer);

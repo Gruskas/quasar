@@ -3,13 +3,28 @@
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useUser} from "@/components/providers/user-provider";
-import {updateUsername, uploadAvatar} from "@/lib/actions";
-import {useState} from "react";
+import {changePassword, updateUsername, uploadAvatar} from "@/lib/actions";
+import React, {useState} from "react";
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
 
 export function ProfileSection() {
     const user = useUser()
     const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+    const handlePasswordSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const currentPassword = formData.get("currentPassword") as string;
+        const newPassword = formData.get("newPassword") as string;
+        const confirmPassword = formData.get("confirmPassword") as string;
+
+        if (newPassword !== confirmPassword) {
+            throw new Error("Passwords do not match");
+        }
+
+        await changePassword(currentPassword, newPassword)
+        setIsChangingPassword(false);
+    }
 
     return (
         <>
@@ -64,10 +79,11 @@ export function ProfileSection() {
             </div>
 
             {isChangingPassword ? (
-                <form className="mt-3 space-y-3">
+                <form onSubmit={handlePasswordSubmit} className="mt-3 space-y-3">
                     <div>
                         <div className="text-xs text-muted-foreground pb-1">Current password</div>
                         <Input
+                            name="currentPassword"
                             type="password"
                             className="h-8"
                             required
@@ -77,6 +93,7 @@ export function ProfileSection() {
                     <div>
                         <div className="text-xs text-muted-foreground pb-1">New password</div>
                         <Input
+                            name="newPassword"
                             type="password"
                             className="h-8"
                             required
@@ -86,6 +103,7 @@ export function ProfileSection() {
                     <div>
                         <div className="text-xs text-muted-foreground pb-1">Confirm new password</div>
                         <Input
+                            name="confirmPassword"
                             type="password"
                             className="h-8"
                             required

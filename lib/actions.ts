@@ -190,3 +190,18 @@ export async function uploadAvatar(formData: FormData) {
 
     revalidatePath("/")
 }
+
+export async function changePassword(currentPassword: string, newPassword: string) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
+    await db.user.update({
+        where: {id: user.id},
+        data: {password: newPassword},
+    })
+
+    revalidatePath("/")
+}

@@ -6,6 +6,7 @@ import {useUser} from "@/components/providers/user-provider";
 import {changePassword, updateUsername, uploadAvatar} from "@/lib/actions";
 import React, {useState} from "react";
 import {Avatar, AvatarImage} from "@/components/ui/avatar";
+import {formatRelativeTime} from "@/lib/utils";
 
 export function ProfileSection() {
     const user = useUser()
@@ -74,7 +75,7 @@ export function ProfileSection() {
                 </div>
                 <div className="py-2">
                     <div className="text-xs text-muted-foreground pb-1">Email address</div>
-                    <Input placeholder="example@example.com" className="h-9" disabled/>
+                    <Input defaultValue={user?.email} className="h-9" disabled/>
                 </div>
             </div>
 
@@ -130,7 +131,7 @@ export function ProfileSection() {
                 <div className="flex items-center justify-between py-3.5 px-1">
                     <div>
                         <div className="text-sm font-medium">Password</div>
-                        <div className="text-xs text-muted-foreground">Last changed 3 months ago</div>
+                        <div className="text-xs text-muted-foreground">Last changed {formatRelativeTime(user?.passwordUpdatedAt)}</div>
                     </div>
                     <Button
                         variant="ghost"

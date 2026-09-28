@@ -198,9 +198,11 @@ export async function changePassword(currentPassword: string, newPassword: strin
         throw new Error("Unauthorized");
     }
 
+    const passwordUpdatedAt = new Date(Date.now());
+
     await db.user.update({
         where: {id: user.id},
-        data: {password: newPassword},
+        data: {password: newPassword, passwordUpdatedAt: passwordUpdatedAt},
     })
 
     revalidatePath("/")

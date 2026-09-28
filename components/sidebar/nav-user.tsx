@@ -2,7 +2,7 @@
 
 import {
     Avatar,
-    AvatarFallback,
+    AvatarFallback, AvatarImage,
 
 } from "@/components/ui/avatar"
 import {
@@ -38,8 +38,14 @@ export function NavUser() {
                     <DropdownMenuTrigger>
                         <SidebarMenuButton size="lg" className="aria-expanded:bg-muted">
                             <Avatar>
-                                {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
-                                <AvatarFallback>CN</AvatarFallback>
+                                {user?.avatar ? (
+                                    <AvatarImage
+                                        src={user.avatar}
+                                        alt={user.username}
+                                    />
+                                ) : (
+                                    user?.username ? user.username.slice(0, 2).toUpperCase() : null
+                                )}
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate font-medium">{user?.username}</span>
@@ -56,8 +62,14 @@ export function NavUser() {
                                 <DropdownMenuLabel className="p-0 font-normal">
                                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                         <Avatar>
-                                            {/*<AvatarImage src={user.avatar} alt={user.name} />*/}
-                                            <AvatarFallback>CN</AvatarFallback>
+                                            {user?.avatar ? (
+                                                <AvatarImage
+                                                    src={user.avatar}
+                                                    alt={user.username}
+                                                />
+                                            ) : (
+                                                user?.username ? user.username.slice(0, 2).toUpperCase() : null
+                                            )}
                                         </Avatar>
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <span className="truncate font-medium">{user?.username}</span>

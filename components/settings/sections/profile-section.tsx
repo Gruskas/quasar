@@ -3,6 +3,7 @@
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useUser} from "@/components/providers/user-provider";
+import {updateUsername} from "@/lib/actions";
 
 export function ProfileSection() {
     const user = useUser()
@@ -28,7 +29,10 @@ export function ProfileSection() {
             <div className="border-b pb-3">
                 <div className="py-3">
                     <div className="text-xs text-muted-foreground pb-1">Display name</div>
-                    <Input defaultValue={user?.username} className="h-9"/>
+                    <Input
+                        defaultValue={user?.username}
+                        onChange={(e) => updateUsername(e.target.value)}
+                        className="h-9"/>
                 </div>
                 <div className="py-2">
                     <div className="text-xs text-muted-foreground pb-1">Email address</div>

@@ -147,3 +147,18 @@ export async function logout() {
     revalidatePath("/");
     redirect("/login");
 }
+
+export async function updateUsername(newUsername: string) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
+    await db.user.update({
+        where: { id: user.id },
+        data: { username: newUsername },
+    })
+
+    revalidatePath("/")
+}

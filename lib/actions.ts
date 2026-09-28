@@ -5,6 +5,8 @@ import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
 import {setSessionCookie, deleteSessionCookie} from "@/lib/auth"
 import {getCurrentUser} from "@/lib/auth";
+import path from "path";
+import {mkdir, writeFile} from "node:fs/promises";
 
 export async function addServer(data: FormData) {
     const user = await getCurrentUser();
@@ -156,9 +158,35 @@ export async function updateUsername(newUsername: string) {
     }
 
     await db.user.update({
-        where: { id: user.id },
-        data: { username: newUsername },
+        where: {id: user.id},
+        data: {username: newUsername},
     })
+
+
+}
+
+export async function uploadAvatar(formData: FormData) {
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Unauthorized");
+    }
+
+    const file = formData.get("avatar") as File;
+
+    if (!file) {
+        throw new Error("No file selected");
+    }
+    console.log(file);
+
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    const uploadDir = path.join(process.cwd(), "avatars")
+    await mkdir(uploadDir);
+
+    const filePath = path.join(uploadDir, `${user.id}.png`)
+    await writeFile(filePath, buffer);
 
     revalidatePath("/")
 }

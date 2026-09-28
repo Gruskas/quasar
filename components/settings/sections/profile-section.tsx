@@ -3,7 +3,7 @@
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useUser} from "@/components/providers/user-provider";
-import {updateUsername} from "@/lib/actions";
+import {updateUsername, uploadAvatar} from "@/lib/actions";
 
 export function ProfileSection() {
     const user = useUser()
@@ -21,9 +21,22 @@ export function ProfileSection() {
                     <div className="font-medium">{user?.username}</div>
                     <div className="text-xs text-muted-foreground">{user?.email}</div>
                 </div>
-                <Button variant="ghost" className="ml-auto">
-                    Change avatar
-                </Button>
+                <label className="ml-auto cursor-pointer">
+                    <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+
+                            const data = new FormData();
+                            data.append("avatar", file);
+
+                            uploadAvatar(data);
+                        }}
+                        className="hidden"/>
+                    <span>Change avatar</span>
+                </label>
             </div>
 
             <div className="border-b pb-3">

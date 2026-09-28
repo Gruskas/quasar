@@ -2,8 +2,11 @@
 
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {useUser} from "@/components/providers/user-provider";
 
 export function ProfileSection() {
+    const user = useUser()
+
     return (
         <>
             <div className="text-base font-semibold">Profile</div>
@@ -14,8 +17,8 @@ export function ProfileSection() {
                     TEST
                 </div>
                 <div>
-                    <div className="font-medium">TEST</div>
-                    <div className="text-xs text-muted-foreground">example@example.com</div>
+                    <div className="font-medium">{user?.username}</div>
+                    <div className="text-xs text-muted-foreground">{user?.email}</div>
                 </div>
                 <Button variant="ghost" className="ml-auto">
                     Change avatar
@@ -25,7 +28,7 @@ export function ProfileSection() {
             <div className="border-b pb-3">
                 <div className="py-3">
                     <div className="text-xs text-muted-foreground pb-1">Display name</div>
-                    <Input defaultValue="TEST" className="h-9"/>
+                    <Input defaultValue={user?.username} className="h-9"/>
                 </div>
                 <div className="py-2">
                     <div className="text-xs text-muted-foreground pb-1">Email address</div>

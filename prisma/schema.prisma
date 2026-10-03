@@ -12,17 +12,28 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  email     String   @unique
-  password  String
+  id                String    @id @default(cuid())
+  username          String    @unique
+  email             String    @unique
+  password          String
   passwordUpdatedAt DateTime?
-  createdAt DateTime @default(now())
+  createdAt         DateTime  @default(now())
 
+  settings UserSettings?
   servers  Server[]
   sessions Session[]
   vaults   Vault[]
   rdp      rdp[]
+}
+
+model UserSettings {
+  defaultSshPort    Int    @default(22)
+  defaultRdpPort    Int    @default(3389)
+  connectionTimeout Int    @default(10)
+  defaultRdpClient  String @default("bat")
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -39,8 +50,8 @@ model Vault {
   name       String
   publicKey  String?
   privateKey String
-  keyType String
-  keyBits Int?
+  keyType    String
+  keyBits    Int?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

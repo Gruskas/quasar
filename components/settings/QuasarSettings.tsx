@@ -7,10 +7,11 @@ import {
     DialogHeader,
 } from "@/components/ui/dialog";
 import {ProfileSection} from "./sections/profile-section";
+import {ConnectionSection} from "@/components/settings/sections/connections-section";
 
 const settings_sections = [
     {id: "profile", label: "Profile"},
-    {id: "test", label: "Test"}
+    {id: "connections", label: "Connections"}
 ];
 
 export function QuasarSettings({isOpen, onOpenChange}: {
@@ -36,7 +37,7 @@ export function QuasarSettings({isOpen, onOpenChange}: {
                             key={section.id}
                             onClick={() => setActiveSection(section.id)}
                             className={`flex items-center px-3 py-2 rounded-xl transition-all duration-300 ${
-                                activeSection === section.id 
+                                activeSection === section.id
                                     ? "bg-accent font-semibold"
                                     : "text-muted-foreground hover:bg-accent/0 hover:text-foreground"
                             }`}
@@ -48,11 +49,7 @@ export function QuasarSettings({isOpen, onOpenChange}: {
 
                 <div className="flex-1 px-4">
                     {activeSection === "profile" && <ProfileSection/>}
-                    {activeSection === "test" && (
-                        <div>
-                            Test
-                        </div>
-                    )}
+                    {activeSection === "connections" && <ConnectionSection/>}
                 </div>
             </div>
 

@@ -45,6 +45,8 @@ export function ServerDialog({
     const isOpen = controlledOpen ?? uncontrolledOpen
     const setIsOpen = setControlledOpen ?? setUncontrolledOpen
 
+    const initialPort = initialData?.port?.toString() ?? (typeof window !== "undefined" ? localStorage.getItem("default-ssh-port") : null) ?? "22"
+
     const handleSubmit = async (formData: FormData) => {
         if (method === "add") {
             await addServer(formData)
@@ -84,7 +86,10 @@ export function ServerDialog({
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="port">Port</Label>
-                            <Input id="port" name="port" placeholder="22" defaultValue={initialData?.port?.toString()}/>
+                            <Input id="port" name="port"
+                                   key={isOpen ? `${initialData?.id ?? "add"}-${initialPort}` : undefined}
+                                   placeholder={initialPort}
+                                   defaultValue={initialPort}/>
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="username">User</Label>

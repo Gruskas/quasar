@@ -35,6 +35,8 @@ export default function RDPForm({
     const isOpen = controlledOpen ?? uncontrolledOpen
     const setIsOpen = setControlledOpen ?? setUncontrolledOpen
 
+    const initialPort = initialData?.port?.toString() ?? (typeof window !== "undefined" ? localStorage.getItem("default-rdp-port") : null) ?? "3389"
+
     const handleSubmit = async (formData: FormData) => {
         if (method === "add") {
             await addRDP(formData)
@@ -111,8 +113,9 @@ export default function RDPForm({
                         <div className="grid gap-2">
                             <Label htmlFor="port">Port</Label>
                             <Input id="port" name="port" type="number" required
-                                   placeholder="3389"
-                                   defaultValue={initialData?.port}
+                                   key={isOpen ? `${initialData?.id ?? "add"}-${initialPort}` : undefined}
+                                   placeholder={initialPort}
+                                   defaultValue={initialPort}
                             />
                         </div>
                     </div>

@@ -5,11 +5,11 @@ import {Terminal} from "@xterm/xterm"
 import {FitAddon} from "@xterm/addon-fit"
 import "@xterm/xterm/css/xterm.css"
 
-export function TerminalClient({serverId}: { serverId: string }) {
+export function TerminalClient({serverId, ticket}: { serverId: string; ticket: string }) {
     const terminalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (!terminalRef.current || !serverId) return
+        if (!terminalRef.current || !serverId || !ticket) return
 
         const term = new Terminal({
             cursorBlink: true,
@@ -26,7 +26,7 @@ export function TerminalClient({serverId}: { serverId: string }) {
         fitAddon.fit()
 
         const ws = new WebSocket(
-            `ws://localhost:3001?serverId=${serverId}&cols=${term.cols}&rows=${term.rows}`
+            `ws://localhost:3001?ticket=${encodeURIComponent(ticket)}&cols=${term.cols}&rows=${term.rows}`
         )
 
         const sendResize = () => {
@@ -62,7 +62,7 @@ export function TerminalClient({serverId}: { serverId: string }) {
             ws.close()
             term.dispose()
         }
-    }, [serverId])
+    }, [serverId, ticket])
 
     return (
         <div className="h-screen w-screen bg-black p-2 overflow-hidden">

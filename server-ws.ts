@@ -6,14 +6,36 @@ const wss = new WebSocketServer({port: 3001})
 
 wss.on("connection", async (ws, req) => {
     const urlParams = new URLSearchParams(req.url?.split("?")[1])
-    const serverId = urlParams.get("serverId")
+    const ticket = urlParams.get("ticket")
     const cols = Number(urlParams.get("cols")) || 80
     const rows = Number(urlParams.get("rows")) || 24
 
-    if (!serverId) {
-        ws.close(1008, "Missing serverId")
+    if (!ticket) {
+        ws.close(1008, "Missing ticket")
         return
     }
+
+    const ticketData = await db.wsTicket.findUnique({
+        where: {ticket},
+        select: {
+            serverId: true,
+            expiresAt: true
+        }
+    })
+
+    if (!ticketData) {
+        ws.close(1008, "Invalid ticket")
+        return
+    }
+
+    if (ticketData.expiresAt < new Date()) {
+        ws.close(1008, "Ticket expired")
+        return
+    }
+
+    const serverId = ticketData.serverId
+
+    await db.wsTicket.delete({where: {ticket}})
 
     const serverData = await db.server.findUnique({
         where: {id: Number(serverId)}, select: {
@@ -41,7 +63,7 @@ wss.on("connection", async (ws, req) => {
         username: serverData.username
     }
 
-    if(serverData.password) {
+    if (serverData.password) {
         sshConfig.password = serverData.password
     } else if (serverData.sshKey?.privateKey) {
         sshConfig.privateKey = serverData.sshKey?.privateKey

@@ -20,6 +20,7 @@ model User {
   createdAt         DateTime  @default(now())
 
   settings UserSettings?
+  wsTicket WsTicket[]
   servers  Server[]
   sessions Session[]
   vaults   Vault[]
@@ -43,6 +44,17 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model WsTicket {
+  id        String   @id @default(cuid())
+  ticket    String   @unique
+  serverId  Int
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Vault {

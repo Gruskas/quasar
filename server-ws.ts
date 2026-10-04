@@ -33,12 +33,10 @@ wss.on("connection", async (ws, req) => {
         return
     }
 
-    const serverId = ticketData.serverId
-
     await db.wsTicket.delete({where: {ticket}})
 
     const serverData = await db.server.findUnique({
-        where: {id: Number(serverId)}, select: {
+        where: {id: Number(ticketData.serverId)}, select: {
             host: true,
             port: true,
             username: true,

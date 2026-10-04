@@ -198,11 +198,22 @@ export async function changePassword(currentPassword: string, newPassword: strin
         throw new Error("Unauthorized");
     }
 
-    const passwordUpdatedAt = new Date(Date.now());
+    const userDB = await db.user.findUnique({
+        where: { id: user.id },
+        select: { password: true }
+    })
+
+    if (!userDB) {
+        throw new Error("User not found");
+    }
+
+    if (userDB.password !== currentPassword) {
+        throw new Error("Invalid current password");
+    }
 
     await db.user.update({
         where: {id: user.id},
-        data: {password: newPassword, passwordUpdatedAt: passwordUpdatedAt},
+        data: {password: newPassword, passwordUpdatedAt: new Date()}
     })
 
     revalidatePath("/")

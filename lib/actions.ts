@@ -1,5 +1,6 @@
 "use server"
 
+import bcrypt from "bcryptjs";
 import {revalidatePath} from "next/cache";
 import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
@@ -7,6 +8,17 @@ import {setSessionCookie, deleteSessionCookie} from "@/lib/auth"
 import {getCurrentUser} from "@/lib/auth";
 import path from "path";
 import {mkdir, writeFile} from "node:fs/promises";
+
+async function hashPassword(password: string) {
+    return bcrypt.hash(password, 12);
+}
+
+async function verifyPassword(password: string, storedPassword: string) {
+    if (!storedPassword) {
+        return false;
+    }
+    return bcrypt.compare(password, storedPassword);
+}
 
 export async function addServer(data: FormData) {
     const user = await getCurrentUser();
@@ -110,11 +122,13 @@ export async function signup(formData: FormData) {
         throw new Error("User with the same email or username already exists");
     }
 
+    const passwordHash = await hashPassword(password);
+
     const user = await db.user.create({
         data: {
             username,
             email,
-            password,
+            password: passwordHash,
         },
     });
 
@@ -134,7 +148,13 @@ export async function login(formData: FormData) {
 
     const user = await db.user.findUnique({where: {email}});
 
-    if (!user || user.password !== password) {
+    if (!user) {
+        throw new Error("Invalid email or password");
+    }
+
+    const isPasswordValid = await verifyPassword(password, user.password);
+
+    if (!isPasswordValid) {
         throw new Error("Invalid email or password");
     }
 
@@ -199,21 +219,25 @@ export async function changePassword(currentPassword: string, newPassword: strin
     }
 
     const userDB = await db.user.findUnique({
-        where: { id: user.id },
-        select: { password: true }
+        where: {id: user.id},
+        select: {password: true}
     })
 
     if (!userDB) {
         throw new Error("User not found");
     }
 
-    if (userDB.password !== currentPassword) {
+    const isCurrentPasswordValid = await verifyPassword(currentPassword, userDB.password);
+
+    if (!isCurrentPasswordValid) {
         throw new Error("Invalid current password");
     }
 
+    const passwordHash = await hashPassword(newPassword);
+
     await db.user.update({
         where: {id: user.id},
-        data: {password: newPassword, passwordUpdatedAt: new Date()}
+        data: {password: passwordHash, passwordUpdatedAt: new Date()}
     })
 
     revalidatePath("/")

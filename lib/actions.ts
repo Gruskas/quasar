@@ -240,5 +240,11 @@ export async function changePassword(currentPassword: string, newPassword: strin
         data: {password: passwordHash, passwordUpdatedAt: new Date()}
     })
 
+    await db.session.deleteMany({
+        where: {userId: user.id},
+    })
+
+    await setSessionCookie(user.id)
+
     revalidatePath("/")
 }

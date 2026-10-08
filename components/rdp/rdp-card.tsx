@@ -47,7 +47,7 @@ export function RDPCard({name, id, host, port, connectionMode, onEdit}: {
             </div>
             <div>
                 <div className="flex flex-col min-w-0 flex-1">
-                    <RdpConnectionStatus host={host} port={port}/>
+                    <RdpConnectionStatus id={id}/>
                 </div>
 
                 <div className="flex items-center justify-end gap-1 pt-2 w-full">

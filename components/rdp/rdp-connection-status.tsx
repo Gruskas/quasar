@@ -3,9 +3,8 @@
 import {useEffect, useState} from "react"
 import {getRdpStatus} from "@/lib/rdp-status";
 
-export function RdpConnectionStatus({host, port}: {
-    host: string
-    port: number
+export function RdpConnectionStatus({id}: {
+    id: number
 }) {
     const [status, setStatus] = useState<{ isOnline: boolean; latency: number | null } | null>(null)
     const [loading, setLoading] = useState(true)
@@ -14,7 +13,7 @@ export function RdpConnectionStatus({host, port}: {
         let isMounted = true
 
         async function fetchStatus() {
-            const res = await getRdpStatus(host, port)
+            const res = await getRdpStatus(id)
             if (isMounted) {
                 setStatus(res)
                 setLoading(false)
@@ -26,7 +25,7 @@ export function RdpConnectionStatus({host, port}: {
         return () => {
             isMounted = false
         }
-    }, [host, port])
+    }, [id])
 
     if (loading) {
         return (

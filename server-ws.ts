@@ -2,9 +2,26 @@ import {WebSocketServer} from "ws"
 import {Client, ConnectConfig} from "ssh2"
 import {db} from "./lib/db"
 
-const wss = new WebSocketServer({port: 3001})
+const allowedOrigins = new Set(
+    (process.env.WS_ALLOWED_ORIGINS ?? "http://localhost:4351,http://127.0.0.1:4351")
+        .split(",")
+        .map((origin) => origin.trim())
+)
+
+const wss = new WebSocketServer({
+    host: "127.0.0.1",
+    port: 3001,
+    verifyClient: ({origin}: {origin: string}) => {
+        const accepted = allowedOrigins.has(origin)
+        if (!accepted) {
+            console.warn(`[ws] rejected origin: ${origin || "<empty>"}`)
+        }
+        return accepted
+    },
+})
 
 wss.on("connection", async (ws, req) => {
+    console.info(`[ws] client connected`)
     const urlParams = new URLSearchParams(req.url?.split("?")[1])
     const ticket = urlParams.get("ticket")
     const cols = Number(urlParams.get("cols")) || 80
@@ -102,6 +119,7 @@ wss.on("connection", async (ws, req) => {
     })
 
     ssh.on("error", (err) => {
+        console.error(`[ssh] connection failed: ${err.message}`)
         ws.send(`\r\nError: ${err.message}\r\n`)
         ws.close()
     })
@@ -109,6 +127,7 @@ wss.on("connection", async (ws, req) => {
     ssh.connect(sshConfig)
 
     ws.on("close", () => {
+        console.info("[ws] client disconnected")
         ssh.end()
     })
 })

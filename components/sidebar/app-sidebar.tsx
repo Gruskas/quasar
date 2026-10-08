@@ -11,7 +11,7 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem, SidebarSeparator,
+    SidebarMenuItem
 } from "@/components/ui/sidebar"
 import {
     TerminalSquareIcon,

@@ -1,6 +1,6 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {VaultFormMode} from "@/components/vault/vault-form";
 import {RDPCard} from "@/components/rdp/rdp-card";
 import {RDPActionBar} from "@/components/rdp/rdp-actionbar";

@@ -3,7 +3,6 @@
 import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
-import {deleteServer} from "@/lib/actions";
 import {getSSHKeyType} from "@/lib/sshKey";
 
 export async function getVaults(userId: string) {

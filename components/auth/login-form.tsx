@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {login} from "@/lib/actions";
+import Image from "next/image";
 
 export function LoginForm() {
     return (
@@ -56,7 +57,7 @@ export function LoginForm() {
                         </FieldGroup>
                     </form>
                     <div className="relative hidden md:block">
-                        <img
+                        <Image
                             src="/big_quasar.webp"
                             alt="Image"
                             className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.7]"

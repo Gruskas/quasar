@@ -6,11 +6,11 @@ import {
     FieldDescription,
     FieldGroup,
     FieldLabel,
-    FieldSeparator,
 } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 
 import {signup} from "@/lib/actions";
+import Image from "next/image";
 
 export function SignupForm() {
     return (
@@ -58,7 +58,7 @@ export function SignupForm() {
                         </FieldGroup>
                     </form>
                     <div className="relative hidden md:block">
-                        <img
+                        <Image
                             src="/big_quasar.webp"
                             alt="Image"
                             className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.7]"

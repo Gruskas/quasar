@@ -1,3 +1,4 @@
+import "dotenv/config"
 import {WebSocketServer} from "ws"
 import {Client, ConnectConfig} from "ssh2"
 import {db} from "./lib/db"

@@ -56,6 +56,7 @@ export async function updateSSHKey(id: number, data: FormData) {
     const name = data.get("name") as string
     const publicKey = data.get("publicKey")?.toString();
     const privateKey = data.get("privateKey") as string;
+    const keyInfo = getSSHKeyType(privateKey)
 
     await db.vault.update({
         where: {id, userId: user.id},
@@ -63,6 +64,8 @@ export async function updateSSHKey(id: number, data: FormData) {
             name,
             publicKey,
             privateKey: encryptSecret(privateKey),
+            keyType: keyInfo.keyType,
+            keyBits: keyInfo.bits || null,
             updatedAt: new Date(),
         },
     });

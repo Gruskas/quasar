@@ -5,13 +5,14 @@ export function getSSHKeyType(privateKeyPem: string): { keyType: string; bits?: 
         const parsed = utils.parseKey(privateKeyPem);
 
         if (parsed instanceof Error) {
-            console.error(parsed);
-            return {
-                keyType: 'Unknown',
-            };
+            throw new Error("Invalid or unsupported SSH private key");
         }
 
         const key = Array.isArray(parsed) ? parsed[0] : parsed;
+
+        if (!key.isPrivateKey()) {
+            throw new Error("SSH key must be a private key")
+        }
 
         switch (key.type) {
             case 'ssh-rsa':
@@ -32,8 +33,6 @@ export function getSSHKeyType(privateKeyPem: string): { keyType: string; bits?: 
                 };
         }
     } catch {
-        return {
-            keyType: 'Unknown',
-        };
+        throw new Error("Invalid or unsupported SSH private key");
     }
 }

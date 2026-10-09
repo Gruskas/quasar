@@ -4,15 +4,21 @@ import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {getSSHKeyType} from "@/lib/sshKey";
+import {decryptSecret, encryptSecret} from "@/lib/secrets";
 
 export async function getVaults(userId: string) {
-    return (await db.vault.findMany({
+    const vaults = await db.vault.findMany({
         where: {
             userId: userId,
         },
         orderBy: {
             createdAt: "desc",
         }
+    })
+
+    return vaults.map((vault) => ({
+        ...vault,
+        privateKey: decryptSecret(vault.privateKey),
     }))
 }
 
@@ -32,7 +38,7 @@ export async function addSSHKey(data: FormData) {
             userId: user.id,
             name,
             publicKey: publicKey || null,
-            privateKey,
+            privateKey: encryptSecret(privateKey),
             keyType: keyInfo.keyType,
             keyBits: keyInfo.bits || null,
         },
@@ -56,7 +62,7 @@ export async function updateSSHKey(id: number, data: FormData) {
         data: {
             name,
             publicKey,
-            privateKey,
+            privateKey: encryptSecret(privateKey),
             updatedAt: new Date(),
         },
     });

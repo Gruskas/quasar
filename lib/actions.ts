@@ -8,6 +8,7 @@ import {setSessionCookie, deleteSessionCookie} from "@/lib/auth"
 import {getCurrentUser} from "@/lib/auth";
 import path from "path";
 import {mkdir, writeFile} from "node:fs/promises";
+import {encryptSecret} from "@/lib/secrets";
 
 async function hashPassword(password: string) {
     return bcrypt.hash(password, 12);
@@ -46,7 +47,7 @@ export async function addServer(data: FormData) {
             host,
             port: parseInt(port),
             username,
-            password: password || "",
+            password: password ? encryptSecret(password) : "",
             sshKeyId: sshKeyId || null,
             userId: user.id,
         },
@@ -93,7 +94,7 @@ export async function updateServer(id: number, data: FormData) {
             host,
             port: parseInt(port),
             username,
-            password,
+            password: encryptSecret(password),
         },
     });
 

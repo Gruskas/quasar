@@ -1,6 +1,7 @@
 import {WebSocketServer} from "ws"
 import {Client, ConnectConfig} from "ssh2"
 import {db} from "./lib/db"
+import {decryptSecret} from "./lib/secrets"
 
 const allowedOrigins = new Set(
     (process.env.WS_ALLOWED_ORIGINS ?? "http://localhost:4351,http://127.0.0.1:4351")
@@ -79,9 +80,9 @@ wss.on("connection", async (ws, req) => {
     }
 
     if (serverData.password) {
-        sshConfig.password = serverData.password
+        sshConfig.password = decryptSecret(serverData.password)
     } else if (serverData.sshKey?.privateKey) {
-        sshConfig.privateKey = serverData.sshKey?.privateKey
+        sshConfig.privateKey = decryptSecret(serverData.sshKey.privateKey)
     } else {
         ws.close(1008, "No password or SSH key provided")
         return

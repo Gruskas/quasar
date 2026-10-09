@@ -1,5 +1,6 @@
 import {db} from "@/lib/db"
 import {isServerOnline} from "@/lib/ping-server"
+import {decryptSecret} from "@/lib/secrets"
 
 export async function getServersWithStatus(userId: string) {
     const servers = await db.server.findMany({
@@ -17,6 +18,7 @@ export async function getServersWithStatus(userId: string) {
             const authMethod = server.sshKeyId ? "SSH Key" : "Password"
             return {
                 ...server,
+                password: server.password ? decryptSecret(server.password) : server.password,
                 authMethod,
                 isOnline,
             }

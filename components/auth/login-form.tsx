@@ -60,6 +60,7 @@ export function LoginForm() {
                         <Image
                             src="/big_quasar.webp"
                             alt="Image"
+                            fill
                             className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.7]"
                         />
                     </div>

@@ -41,6 +41,20 @@ export async function addServer(data: FormData) {
 
     const sshKeyId = rawSSHKeyId ? parseInt(rawSSHKeyId) : null
 
+    if (sshKeyId) {
+        const key = await db.vault.findFirst({
+            where: {
+                id: sshKeyId,
+                userId: user.id,
+            },
+            select: {id: true},
+        })
+
+        if (!key) {
+            throw new Error("SSH key not found")
+        }
+    }
+
     await db.server.create({
         data: {
             name,
@@ -82,9 +96,26 @@ export async function updateServer(id: number, data: FormData) {
     const port = data.get("port")?.toString();
     const username = data.get("username")?.toString();
     const password = data.get("password")?.toString();
+    const rawSSHKeyId = data.get("sshKeyId")?.toString();
 
-    if (!id || !name || !host || !port || !username || !password) {
+    if (!id || !name || !host || !port || !username || (!password && !rawSSHKeyId)) {
         throw new Error("Missing required fields");
+    }
+
+    const sshKeyId = rawSSHKeyId ? parseInt(rawSSHKeyId) : null
+
+    if (sshKeyId) {
+        const key = await db.vault.findFirst({
+            where: {
+                id: sshKeyId,
+                userId: user.id,
+            },
+            select: {id: true},
+        })
+
+        if (!key) {
+            throw new Error("SSH key not found")
+        }
     }
 
     await db.server.update({
@@ -94,7 +125,8 @@ export async function updateServer(id: number, data: FormData) {
             host,
             port: parseInt(port),
             username,
-            password: encryptSecret(password),
+            password: password ? encryptSecret(password) : "",
+            sshKeyId,
         },
     });
 

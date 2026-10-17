@@ -34,9 +34,15 @@ export function TerminalClient({serverId}: { serverId: string }) {
                 return
             }
 
+            const isLocalDevelopment =
+                window.location.hostname === "localhost" ||
+                window.location.hostname === "127.0.0.1"
             const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+            const wsEndpoint = isLocalDevelopment
+                ? `${wsProtocol}//127.0.0.1:3001`
+                : `${wsProtocol}//${window.location.host}/ws`
             ws = new WebSocket(
-                `${wsProtocol}//${window.location.host}/ws?ticket=${encodeURIComponent(ticket)}&cols=${term.cols}&rows=${term.rows}`
+                `${wsEndpoint}?ticket=${encodeURIComponent(ticket)}&cols=${term.cols}&rows=${term.rows}`
             )
 
             ws.onmessage = (event) => {

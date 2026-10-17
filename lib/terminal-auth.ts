@@ -3,8 +3,10 @@
 import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth"
 import crypto from "crypto"
+import {enforceMutationSecurity} from "@/lib/security"
 
 export async function createTerminalTicket(serverId: number): Promise<string> {
+    await enforceMutationSecurity("terminal:ticket", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")

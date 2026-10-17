@@ -3,6 +3,7 @@
 import {db} from "@/lib/db"
 import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
+import {enforceMutationSecurity} from "@/lib/security";
 
 export async function getRDPConnections() {
     const user = await getCurrentUser()
@@ -28,6 +29,7 @@ export async function getRDPConnections() {
 }
 
 export async function addRDP(data: FormData) {
+    await enforceMutationSecurity("rdp:add", 10)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -59,6 +61,7 @@ export async function addRDP(data: FormData) {
 }
 
 export async function updateRDP(id: number, data: FormData) {
+    await enforceMutationSecurity("rdp:update", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -90,6 +93,7 @@ export async function updateRDP(id: number, data: FormData) {
 }
 
 export async function deleteRDP(id: number) {
+    await enforceMutationSecurity("rdp:delete", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -103,6 +107,7 @@ export async function deleteRDP(id: number) {
 }
 
 export async function generateRdpBatchFile(id: number) {
+    await enforceMutationSecurity("rdp:launch", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -143,6 +148,7 @@ export async function generateRdpBatchFile(id: number) {
 }
 
 export async function getRdpConnectionLink(id: number) {
+    await enforceMutationSecurity("rdp:launch", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")

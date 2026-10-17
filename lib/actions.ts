@@ -9,6 +9,7 @@ import {getCurrentUser} from "@/lib/auth";
 import path from "path";
 import {mkdir, writeFile} from "node:fs/promises";
 import {encryptSecret} from "@/lib/secrets";
+import {enforceMutationSecurity} from "@/lib/security";
 
 async function hashPassword(password: string) {
     return bcrypt.hash(password, 12);
@@ -22,6 +23,7 @@ async function verifyPassword(password: string, storedPassword: string) {
 }
 
 export async function addServer(data: FormData) {
+    await enforceMutationSecurity("server:add", 10)
     const user = await getCurrentUser();
 
     if (!user) {
@@ -71,6 +73,7 @@ export async function addServer(data: FormData) {
 }
 
 export async function deleteServer(id: number) {
+    await enforceMutationSecurity("server:delete", 20)
     const user = await getCurrentUser();
 
     if (!user) {
@@ -85,6 +88,7 @@ export async function deleteServer(id: number) {
 }
 
 export async function updateServer(id: number, data: FormData) {
+    await enforceMutationSecurity("server:update", 20)
     const user = await getCurrentUser();
 
     if (!user) {
@@ -172,6 +176,7 @@ export async function signup(formData: FormData) {
 }
 
 export async function login(formData: FormData) {
+    await enforceMutationSecurity("auth:login", 10)
     const email = formData.get("email")?.toString().trim().toLowerCase();
     const password = formData.get("password")?.toString();
 
@@ -198,12 +203,14 @@ export async function login(formData: FormData) {
 }
 
 export async function logout() {
+    await enforceMutationSecurity("auth:logout", 20)
     await deleteSessionCookie();
     revalidatePath("/");
     redirect("/login");
 }
 
 export async function updateUsername(newUsername: string) {
+    await enforceMutationSecurity("user:update", 10)
     const user = await getCurrentUser();
 
     if (!user) {
@@ -219,6 +226,7 @@ export async function updateUsername(newUsername: string) {
 }
 
 export async function uploadAvatar(formData: FormData) {
+    await enforceMutationSecurity("avatar:upload", 10)
     const user = await getCurrentUser();
 
     if (!user) {
@@ -245,6 +253,7 @@ export async function uploadAvatar(formData: FormData) {
 }
 
 export async function changePassword(currentPassword: string, newPassword: string) {
+    await enforceMutationSecurity("auth:password", 5)
     const user = await getCurrentUser();
 
     if (!user) {

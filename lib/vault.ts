@@ -5,11 +5,16 @@ import {getCurrentUser} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {getSSHKeyType} from "@/lib/sshKey";
 import {decryptSecret, encryptSecret} from "@/lib/secrets";
+import {enforceMutationSecurity} from "@/lib/security";
 
-export async function getVaults(userId: string) {
+export async function getVaults() {
+    const user = await getCurrentUser()
+    if (!user) {
+        throw new Error("Unauthorized")
+    }
     const vaults = await db.vault.findMany({
         where: {
-            userId: userId,
+            userId: user.id,
         },
         orderBy: {
             createdAt: "desc",
@@ -23,6 +28,7 @@ export async function getVaults(userId: string) {
 }
 
 export async function addSSHKey(data: FormData) {
+    await enforceMutationSecurity("vault:add", 10)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -48,6 +54,7 @@ export async function addSSHKey(data: FormData) {
 }
 
 export async function updateSSHKey(id: number, data: FormData) {
+    await enforceMutationSecurity("vault:update", 20)
     const user = await getCurrentUser()
     if (!user) {
         throw new Error("Unauthorized")
@@ -74,6 +81,7 @@ export async function updateSSHKey(id: number, data: FormData) {
 }
 
 export async function deleteSSHKey(id: number) {
+    await enforceMutationSecurity("vault:delete", 20)
     const user = await getCurrentUser()
     if(!user) {
         throw new Error("Unauthorized")

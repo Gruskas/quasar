@@ -22,7 +22,7 @@ export default async function DashboardLayout({children}: { children: React.Reac
         redirect("/login")
     }
 
-    const keys = await getVaults(user.id)
+    const keys = await getVaults()
 
     return (
         <UserProvider user={user}>

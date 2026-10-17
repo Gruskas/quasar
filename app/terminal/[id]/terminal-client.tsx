@@ -34,8 +34,9 @@ export function TerminalClient({serverId}: { serverId: string }) {
                 return
             }
 
+            const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:"
             ws = new WebSocket(
-                `ws://127.0.0.1:3001?ticket=${encodeURIComponent(ticket)}&cols=${term.cols}&rows=${term.rows}`
+                `${wsProtocol}//${window.location.host}/ws?ticket=${encodeURIComponent(ticket)}&cols=${term.cols}&rows=${term.rows}`
             )
 
             ws.onmessage = (event) => {

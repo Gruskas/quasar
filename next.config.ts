@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
+const allowedDevOrigins = (process.env.NEXT_ALLOWED_DEV_ORIGINS ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+
 const nextConfig: NextConfig = {
+  allowedDevOrigins,
   serverExternalPackages: ["ssh2"],
   async headers() {
     const developmentScriptPolicy = process.env.NODE_ENV === "development"
